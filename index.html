@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -192,7 +193,9 @@
       width: 270px; background: var(--bg3); border-radius: 8px; padding: 24px; gap: 12px;
       display: flex; flex-direction: column; border: 1px solid var(--border);
     }
-    .pain-icon { font-size: 28px; }
+    [data-lucide] { display: inline-block; vertical-align: middle; stroke-width: 1.5; }
+    .pain-icon { display: flex; align-items: center; justify-content: center; }
+    .pain-icon [data-lucide] { width: 28px; height: 28px; }
     .pain-title { font-size: 15px; font-weight: 600; }
     .pain-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
     .arrow-down { display: flex; flex-direction: column; align-items: center; gap: 12px; }
@@ -207,7 +210,7 @@
     }
     .axis-top { display: flex; align-items: center; justify-content: space-between; }
     .axis-num { font-size: 13px; font-weight: 600; letter-spacing: 2px; }
-    .axis-ico { font-size: 24px; }
+    .axis-ico [data-lucide] { width: 24px; height: 24px; }
     .axis-title { font-family: 'Anton', sans-serif; font-size: 24px; line-height: 1.1; }
     .axis-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
     .axis-divider { height: 1px; background: var(--border); }
@@ -341,7 +344,9 @@
       display: flex; flex-direction: column; gap: 10px; border: 1px solid #1A1A2E;
     }
     .sec-card-top { display: flex; align-items: center; gap: 10px; }
-    .sec-ico-bg { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .sec-ico-bg { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sec-ico-bg [data-lucide] { width: 16px; height: 16px; }
+    .feat-name-row [data-lucide] { width: 18px; height: 18px; }
     .sec-name { font-family: 'Anton', sans-serif; font-size: 16px; }
     .sec-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
     .sec-tag { padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 500; display: inline-block; width: fit-content; }
@@ -505,7 +510,7 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">🧪 Laboratorio estratégico para creadores de TikTok</div>
+  <div class="hero-badge"><i data-lucide="flask-conical" style="width:14px;height:14px"></i> Laboratorio estratégico para creadores de TikTok</div>
   <h1>Para de publicar<br>a ciegas.</h1>
   <p class="hero-sub">Tandora convierte tu creación de contenido en un proceso medible: referencias reales, planificación con IA y métricas que revelan qué está petando en tu nicho. No virales mágicos. Método.</p>
   <div class="hero-btns">
@@ -522,26 +527,26 @@
         <span class="mock-logo-text">Tandora</span>
       </div>
       <div class="mock-divider"></div>
-      <div class="mock-nav-item">🏠 Casa</div>
-      <div class="mock-nav-item active">🥩 Chicha</div>
-      <div class="mock-nav-item">🍦 Crema</div>
-      <div class="mock-nav-item">📅 Tandas</div>
-      <div class="mock-nav-item">🛟 Rescates</div>
-      <div class="mock-nav-item">🧪 Lab</div>
-      <div class="mock-nav-item">🧬 Clones</div>
-      <div class="mock-nav-item">👥 Gente</div>
-      <div class="mock-nav-item">⚡ Hooks</div>
-      <div class="mock-nav-item">🎴 Alivios</div>
-      <div class="mock-nav-item">🎬 Script to Clip</div>
+      <div class="mock-nav-item"><i data-lucide="home" style="width:12px;height:12px"></i> Casa</div>
+      <div class="mock-nav-item active"><i data-lucide="compass" style="width:12px;height:12px"></i> Chicha</div>
+      <div class="mock-nav-item"><i data-lucide="sparkles" style="width:12px;height:12px"></i> Crema</div>
+      <div class="mock-nav-item"><i data-lucide="calendar-days" style="width:12px;height:12px"></i> Tandas</div>
+      <div class="mock-nav-item"><i data-lucide="life-buoy" style="width:12px;height:12px"></i> Rescates</div>
+      <div class="mock-nav-item"><i data-lucide="flask-conical" style="width:12px;height:12px"></i> Lab</div>
+      <div class="mock-nav-item"><i data-lucide="copy" style="width:12px;height:12px"></i> Clones</div>
+      <div class="mock-nav-item"><i data-lucide="users" style="width:12px;height:12px"></i> Gente</div>
+      <div class="mock-nav-item"><i data-lucide="zap" style="width:12px;height:12px"></i> Hooks</div>
+      <div class="mock-nav-item"><i data-lucide="layers" style="width:12px;height:12px"></i> Alivios</div>
+      <div class="mock-nav-item"><i data-lucide="clapperboard" style="width:12px;height:12px"></i> Script to Clip</div>
     </div>
     <div class="mock-main">
       <div class="mock-topbar">
-        <div class="mock-search">🔍 Buscar por hook o descripción...</div>
+        <div class="mock-search"><i data-lucide="search" style="width:11px;height:11px"></i> Buscar por hook o descripción...</div>
         <div class="mock-filter">Todas las cuentas <span>∨</span></div>
         <div class="mock-add-btn">+ Añadir desde TikTok</div>
       </div>
       <div class="mock-triple-bar">
-        <div class="mock-triple-badge">🔥 Triple señal</div>
+        <div class="mock-triple-badge"><i data-lucide="flame" style="width:11px;height:11px"></i> Triple señal</div>
         <div class="mock-triple-text">Indica que ese post supera el promedio de tus cuentas de referencia en comentarios, compartidos y guardados al mismo tiempo.</div>
       </div>
       <div class="mock-table-head">
@@ -615,11 +620,11 @@
 
 <!-- TRUST -->
 <div class="trust">
-  <div class="trust-item">📊 +200 vídeos de referencia analizados</div>
+  <div class="trust-item"><i data-lucide="bar-chart-2" style="width:14px;height:14px"></i> +200 vídeos de referencia analizados</div>
   <span class="trust-sep">·</span>
-  <div class="trust-item">🎯 Viral Score 0-100 por cada pieza</div>
+  <div class="trust-item"><i data-lucide="target" style="width:14px;height:14px"></i> Viral Score 0-100 por cada pieza</div>
   <span class="trust-sep">·</span>
-  <div class="trust-item">🤖 IA con contexto real de tu nicho</div>
+  <div class="trust-item"><i data-lucide="bot" style="width:14px;height:14px"></i> IA con contexto real de tu nicho</div>
   <span class="trust-sep">·</span>
   <div class="trust-item">💳 12 €/mes · Sin permanencia</div>
 </div>
@@ -632,22 +637,22 @@
   </div>
   <div class="cards-grid">
     <div class="pain-card">
-      <div class="pain-icon">🎲</div>
+      <div class="pain-icon"><i data-lucide="shuffle"></i></div>
       <div class="pain-title">Publicas por intuición</div>
       <div class="pain-desc">Sin saber qué estructura, hook o ángulo está petando realmente en tu nicho ahora mismo.</div>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">🔁</div>
+      <div class="pain-icon"><i data-lucide="repeat-2"></i></div>
       <div class="pain-title">No iteras</div>
       <div class="pain-desc">Cada vídeo es un intento nuevo. Sin v2, v3. Sin aprender del anterior porque no sabes qué cambiar.</div>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">📋</div>
+      <div class="pain-icon"><i data-lucide="clipboard"></i></div>
       <div class="pain-title">Usas plantillas vacías</div>
       <div class="pain-desc">Genéricas, de otro nicho, sin referencia real. Se nota en el engagement y lo sabes.</div>
     </div>
     <div class="pain-card">
-      <div class="pain-icon">🤷</div>
+      <div class="pain-icon"><i data-lucide="help-circle"></i></div>
       <div class="pain-title">Ves crecer a otros</div>
       <div class="pain-desc">Y no entiendes por qué. Ellos tienen el mismo tiempo, el mismo equipo. ¿Qué hacen diferente?</div>
     </div>
@@ -668,7 +673,7 @@
     <div class="axis-card" style="border:1px solid #A855F733">
       <div class="axis-top">
         <span class="axis-num" style="color:#A855F7">01</span>
-        <span class="axis-ico">👁</span>
+        <span class="axis-ico"><i data-lucide="eye"></i></span>
       </div>
       <div class="axis-title" style="color:#fff">Observación inteligente</div>
       <div class="axis-desc">Analiza las cuentas que ya funcionan en tu nicho. Extrae hooks reales, ángulos ganadores y estructuras virales — no opiniones, datos.</div>
@@ -676,13 +681,13 @@
       <div class="axis-feats">
         <div class="axis-feat"><span class="axis-feat-check" style="color:#A855F7">✓</span><span class="axis-feat-text">Feed de referencias con métricas reales</span></div>
         <div class="axis-feat"><span class="axis-feat-check" style="color:#A855F7">✓</span><span class="axis-feat-text">Top Hooks por categoría y tasa de interacción</span></div>
-        <div class="axis-feat"><span class="axis-feat-check" style="color:#A855F7">✓</span><span class="axis-feat-text">Triple señal 🔥 (comentarios + compartidos + guardados)</span></div>
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#A855F7">✓</span><span class="axis-feat-text">Triple señal <i data-lucide="flame" style="width:12px;height:12px;color:#F97316"></i> (comentarios + compartidos + guardados)</span></div>
       </div>
     </div>
     <div class="axis-card" style="border:1px solid #EC489933">
       <div class="axis-top">
         <span class="axis-num" style="color:#EC4899">02</span>
-        <span class="axis-ico">📅</span>
+        <span class="axis-ico"><i data-lucide="calendar-days"></i></span>
       </div>
       <div class="axis-title" style="color:#fff">Planificación accionable</div>
       <div class="axis-desc">Agrupa ideas en tandas con deadline, referencia real vinculada y guion completo generado por IA. Sin página en blanco nunca más.</div>
@@ -696,7 +701,7 @@
     <div class="axis-card" style="border:1px solid #06B6D433">
       <div class="axis-top">
         <span class="axis-num" style="color:#06B6D4">03</span>
-        <span class="axis-ico">🧪</span>
+        <span class="axis-ico"><i data-lucide="flask-conical"></i></span>
       </div>
       <div class="axis-title" style="color:#fff">Experimentación medible</div>
       <div class="axis-desc">Publica, mide, compara contra tu referencia y detecta qué patrones se repiten en tus vídeos ganadores. Itera con criterio.</div>
@@ -721,13 +726,13 @@
     <!-- Chicha -->
     <div class="feat-card" style="border:1px solid #EC489922">
       <div class="feat-ill">
-        <div class="ill-search">🔍 Buscar por hook o descripción...</div>
+        <div class="ill-search"><i data-lucide="search" style="width:11px;height:11px"></i> Buscar por hook o descripción...</div>
         <div class="ill-feed-row highlight">
           <div class="ill-thumb"></div>
           <div class="ill-meta">
             <div class="ill-creator" style="color:#EC4899">@marjorihaddad</div>
             <div class="ill-hook">Opus está a punto de convertirse en la navaja suiza de la edición</div>
-            <div class="ill-stats"><span class="triple-mini">🔥 Triple</span> 51.1K · 23.3%</div>
+            <div class="ill-stats"><span class="triple-mini"><i data-lucide="flame" style="width:10px;height:10px"></i> Triple</span> 51.1K · 23.3%</div>
           </div>
         </div>
         <div class="ill-feed-row">
@@ -735,14 +740,14 @@
           <div class="ill-meta">
             <div class="ill-creator" style="color:#EC4899">@javiniguez</div>
             <div class="ill-hook">La IA ya sabe hacer animaciones PRO con GSAP</div>
-            <div class="ill-stats"><span class="triple-mini">🔥 Triple</span> 58.0K · 24.1%</div>
+            <div class="ill-stats"><span class="triple-mini"><i data-lucide="flame" style="width:10px;height:10px"></i> Triple</span> 58.0K · 24.1%</div>
           </div>
         </div>
         <div class="ill-add-btn">Añadir a tanda →</div>
       </div>
       <div class="feat-info">
-        <div class="feat-name-row"><span>🥩</span><span class="feat-name">Chicha</span></div>
-        <div class="feat-desc">Ve lo que está petando en tu nicho ahora mismo. Filtra por Triple señal 🔥 y añade cualquier vídeo a tu próxima tanda en dos clics.</div>
+        <div class="feat-name-row"><i data-lucide="compass"></i><span class="feat-name">Chicha</span></div>
+        <div class="feat-desc">Ve lo que está petando en tu nicho ahora mismo. Filtra por Triple señal <i data-lucide="flame" style="width:12px;height:12px;color:#F97316"></i> y añade cualquier vídeo a tu próxima tanda en dos clics.</div>
       </div>
     </div>
 
@@ -793,7 +798,7 @@
         </div>
       </div>
       <div class="feat-info">
-        <div class="feat-name-row"><span>👥</span><span class="feat-name">Gente</span></div>
+        <div class="feat-name-row"><i data-lucide="users"></i><span class="feat-name">Gente</span></div>
         <div class="feat-desc">Tus referencias y tu cuenta propia, en un panel. El Niche Match te dice si estás mirando las cuentas correctas para tu nicho.</div>
       </div>
     </div>
@@ -809,8 +814,8 @@
         </div>
         <div class="ill-piece-card">
           <div class="ill-piece-header">
-            <span class="ill-piece-title">📝 Mi versión</span>
-            <span class="ill-deadline">⏱ 3 días</span>
+            <span class="ill-piece-title"><i data-lucide="pencil" style="width:11px;height:11px"></i> Mi versión</span>
+            <span class="ill-deadline"><i data-lucide="clock" style="width:11px;height:11px"></i> 3 días</span>
           </div>
           <div class="ill-piece-hook">HOOK (IA): "El error que cometen todos los creadores al empezar — y cómo evitarlo en 30 segundos"</div>
         </div>
@@ -823,7 +828,7 @@
         </div>
       </div>
       <div class="feat-info">
-        <div class="feat-name-row"><span>📅</span><span class="feat-name">Tandas</span></div>
+        <div class="feat-name-row"><i data-lucide="calendar-days"></i><span class="feat-name">Tandas</span></div>
         <div class="feat-desc">Toma una referencia real, genera el guion con IA y comprométete con un deadline. Después itera: v2, v3... hasta que funcione.</div>
       </div>
     </div>
@@ -832,19 +837,19 @@
     <div class="feat-card" style="border:1px solid #8B5CF622">
       <div class="feat-ill" style="padding:14px">
         <div class="ill-pills-row">
-          <div class="ill-signal-pill active" style="background:#A855F722;border:1px solid #A855F7;color:#A855F7">💬 Comentarios</div>
-          <div class="ill-signal-pill" style="color:#52525B">🔄 Compartidos</div>
-          <div class="ill-signal-pill" style="color:#52525B">📌 Guardados</div>
-          <div class="ill-signal-pill" style="color:#52525B">❤️ Likes</div>
+          <div class="ill-signal-pill active" style="background:#A855F722;border:1px solid #A855F7;color:#A855F7"><i data-lucide="message-circle" style="width:11px;height:11px"></i> Comentarios</div>
+          <div class="ill-signal-pill" style="color:#52525B"><i data-lucide="refresh-cw" style="width:11px;height:11px"></i> Compartidos</div>
+          <div class="ill-signal-pill" style="color:#52525B"><i data-lucide="bookmark" style="width:11px;height:11px"></i> Guardados</div>
+          <div class="ill-signal-pill" style="color:#52525B"><i data-lucide="heart" style="width:11px;height:11px"></i> Likes</div>
         </div>
         <div class="ill-insight-card">
-          <div class="ill-insight-eyebrow">🤖 Insight generado por IA</div>
+          <div class="ill-insight-eyebrow"><i data-lucide="bot" style="width:11px;height:11px"></i> Insight generado por IA</div>
           <div class="ill-insight-text">Los vídeos que empiezan con una pregunta directa generan 3.2x más comentarios que los que abren con dato o afirmación.</div>
           <span class="ill-insight-tag">Táctica: abre con una pregunta que tus seguidores ya se están haciendo</span>
         </div>
       </div>
       <div class="feat-info">
-        <div class="feat-name-row"><span>🍦</span><span class="feat-name">Crema</span></div>
+        <div class="feat-name-row"><i data-lucide="sparkles"></i><span class="feat-name">Crema</span></div>
         <div class="feat-desc">Insights estratégicos por cada señal del algoritmo. La IA analiza tus referencias y te dice exactamente qué provocar — y cómo.</div>
       </div>
     </div>
@@ -874,7 +879,7 @@
         </div>
       </div>
       <div class="feat-info">
-        <div class="feat-name-row"><span>🧬</span><span class="feat-name">Clones</span></div>
+        <div class="feat-name-row"><i data-lucide="copy"></i><span class="feat-name">Clones</span></div>
         <div class="feat-desc">Captura la estructura de un vídeo viral — bloques, giro, CTA — y genera N variaciones adaptadas a tu tema en segundos.</div>
       </div>
     </div>
@@ -888,7 +893,7 @@
               <span class="ill-score-num">71</span>
               <span class="ill-score-denom">/100</span>
             </div>
-            <span class="ill-tier-pill">🏆 Funcionó</span>
+            <span class="ill-tier-pill"><i data-lucide="trophy" style="width:11px;height:11px"></i> Funcionó</span>
           </div>
           <div class="ill-metrics-col">
             <div class="ill-metrics-label">MÉTRICAS</div>
@@ -909,7 +914,7 @@
         </div>
       </div>
       <div class="feat-info">
-        <div class="feat-name-row"><span>🧪</span><span class="feat-name">Lab</span></div>
+        <div class="feat-name-row"><i data-lucide="flask-conical"></i><span class="feat-name">Lab</span></div>
         <div class="feat-desc">Viral Score 0-100, patrones en tus hooks ganadores y proyección de crecimiento real. Trata cada vídeo como un experimento con resultados medibles.</div>
       </div>
     </div>
@@ -921,7 +926,7 @@
   <div class="secondary-grid">
     <div class="sec-card">
       <div class="sec-card-top">
-        <div class="sec-ico-bg" style="background:#F59E0B18">🛟</div>
+        <div class="sec-ico-bg" style="background:#F59E0B18;color:#F59E0B"><i data-lucide="life-buoy"></i></div>
         <span class="sec-name">Rescates</span>
       </div>
       <div class="sec-desc">Todas tus iteraciones en un lugar. Cada vídeo que no funcionó tiene una v2 esperando — Rescates te muestra cuál es el siguiente intento.</div>
@@ -929,7 +934,7 @@
     </div>
     <div class="sec-card">
       <div class="sec-card-top">
-        <div class="sec-ico-bg" style="background:#A855F718">⚡</div>
+        <div class="sec-ico-bg" style="background:#A855F718;color:#A855F7"><i data-lucide="zap"></i></div>
         <span class="sec-name">Hooks</span>
       </div>
       <div class="sec-desc">Tu banco personal de ganchos. Documenta los que funcionan, clasifícalos por tipo y reutilízalos cuando el cursor parpadea en blanco.</div>
@@ -937,7 +942,7 @@
     </div>
     <div class="sec-card">
       <div class="sec-card-top">
-        <div class="sec-ico-bg" style="background:#06B6D418">🎬</div>
+        <div class="sec-ico-bg" style="background:#06B6D418;color:#06B6D4"><i data-lucide="clapperboard"></i></div>
         <span class="sec-name">Script to Clip</span>
       </div>
       <div class="sec-desc">Del guion al rodaje en un paso. Segmenta el texto en clips, define el tipo de plano y llega a grabar sabiendo exactamente qué hacer.</div>
@@ -945,7 +950,7 @@
     </div>
     <div class="sec-card">
       <div class="sec-card-top">
-        <div class="sec-ico-bg" style="background:#EC489918">📹</div>
+        <div class="sec-ico-bg" style="background:#EC489918;color:#EC4899"><i data-lucide="video"></i></div>
         <span class="sec-name">Vídeo a guión</span>
       </div>
       <div class="sec-desc">Sube un vídeo que te haya inspirado y obtén su guion completo para analizarlo, adaptarlo y usarlo como base para tu próxima pieza.</div>
@@ -958,7 +963,7 @@
 <section class="section">
   <div class="proof-inner">
     <div class="proof-copy">
-      <div class="proof-eyebrow">📈 Datos reales · @avidoos · TikTok</div>
+      <div class="proof-eyebrow"><i data-lucide="trending-up" style="width:14px;height:14px"></i> Datos reales · @avidoos · TikTok</div>
       <h2>Esto es lo que pasa cuando dejas de publicar a ciegas.</h2>
       <p>Empecé a usar Tandora en abril. Antes publicaba y esperaba. Después empecé a mirar qué estructuras y hooks estaban funcionando en mi nicho, a planificar con referencia real y a medir cada pieza.</p>
       <div class="proof-stats">
@@ -1106,5 +1111,6 @@
   });
 </script>
 
+<script>lucide.createIcons();</script>
 </body>
 </html>
