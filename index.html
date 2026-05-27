@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tandora — Para de publicar a ciegas</title>
+  <meta name="description" content="Tandora convierte tu creación de contenido en un proceso medible: referencias reales, planificación con IA y métricas que revelan qué está petando en tu nicho." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #060611;
+      --bg2: #0A0A1A;
+      --bg3: #0F0F20;
+      --bg4: #080818;
+      --surface: #111128;
+      --border: #1E1E2E;
+      --border2: #1A1A2E;
+      --purple: #A855F7;
+      --pink: #EC4899;
+      --cyan: #06B6D4;
+      --amber: #F59E0B;
+      --green: #10B981;
+      --orange: #F97316;
+      --text-primary: #FFFFFF;
+      --text-secondary: #A1A1AA;
+      --text-muted: #71717A;
+      --text-dim: #52525B;
+      --text-dimmer: #3F3F5A;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .anton { font-family: 'Anton', sans-serif; font-weight: 400; }
+
+    /* ─── NAV ─────────────────────────────────────────── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 100px; height: 72px;
+      background: var(--bg); position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid var(--border2);
+    }
+    .nav-logo { font-family: 'Anton', sans-serif; font-size: 24px; letter-spacing: 1px; color: #fff; text-decoration: none; }
+    .nav-links { display: flex; gap: 40px; }
+    .nav-links a { font-size: 14px; color: var(--text-secondary); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      background: var(--purple); color: #fff; font-size: 14px; font-weight: 600;
+      padding: 10px 20px; border-radius: 6px; text-decoration: none; transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: .85; }
+
+    /* ─── HERO ────────────────────────────────────────── */
+    .hero {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 80px 100px; gap: 28px; background: var(--bg); text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #1A1A2E; padding: 6px 16px; border-radius: 20px;
+      font-size: 13px; color: var(--purple); font-weight: 500;
+    }
+    .hero h1 {
+      font-size: 88px; line-height: 1.05; max-width: 820px;
+      background: linear-gradient(180deg, #fff 60%, #A1A1AA 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub { font-size: 18px; color: var(--text-secondary); max-width: 660px; line-height: 1.6; }
+    .hero-btns { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: center; }
+    .btn-primary {
+      background: var(--purple); color: #fff; font-size: 16px; font-weight: 600;
+      padding: 14px 28px; border-radius: 6px; text-decoration: none; transition: opacity .2s;
+    }
+    .btn-primary:hover { opacity: .85; }
+    .btn-outline {
+      border: 1px solid var(--purple); color: var(--purple); font-size: 16px; font-weight: 500;
+      padding: 14px 28px; border-radius: 6px; text-decoration: none; background: transparent; transition: background .2s;
+    }
+    .btn-outline:hover { background: #A855F711; }
+    .hero-note { font-size: 13px; color: var(--text-dim); }
+
+    /* ─── MOCKUP ──────────────────────────────────────── */
+    .hero-mockup {
+      width: 100%; max-width: 1100px; height: 500px;
+      background: #0D0D1F; border-radius: 14px; overflow: hidden;
+      border: 1px solid #1E1E3A;
+      box-shadow: 0 0 60px #A855F725;
+      display: flex;
+    }
+    .mock-sidebar {
+      width: 200px; flex-shrink: 0; background: var(--bg4);
+      padding: 16px 10px; display: flex; flex-direction: column; gap: 4px;
+      border-right: 1px solid var(--border2);
+    }
+    .mock-logo-row {
+      display: flex; align-items: center; gap: 8px; padding: 4px 6px; margin-bottom: 8px;
+    }
+    .mock-logo-sq { width: 22px; height: 22px; background: var(--purple); border-radius: 5px; flex-shrink: 0; }
+    .mock-logo-text { font-family: 'Anton', sans-serif; font-size: 15px; }
+    .mock-divider { height: 1px; background: var(--border2); margin-bottom: 4px; }
+    .mock-nav-item {
+      display: flex; align-items: center; gap: 8px;
+      height: 34px; padding: 0 8px; border-radius: 8px;
+      font-size: 12px; color: #4B4B6A; cursor: pointer;
+    }
+    .mock-nav-item.active { background: #1E1B3A; color: var(--purple); font-weight: 600; }
+    .mock-main { flex: 1; background: #0F0F24; display: flex; flex-direction: column; overflow: hidden; }
+    .mock-topbar {
+      display: flex; align-items: center; gap: 12px;
+      height: 52px; padding: 0 20px; border-bottom: 1px solid var(--border2); flex-shrink: 0;
+    }
+    .mock-search {
+      flex: 1; height: 32px; background: var(--surface); border-radius: 8px;
+      padding: 0 12px; display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: #3F3F5A;
+    }
+    .mock-filter {
+      width: 160px; height: 32px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 0 12px; display: flex; align-items: center; justify-content: space-between;
+      font-size: 11px; color: var(--text-muted); flex-shrink: 0;
+    }
+    .mock-add-btn {
+      background: var(--purple); color: #fff; font-size: 11px; font-weight: 500;
+      padding: 6px 14px; border-radius: 8px; display: flex; align-items: center; gap: 5px; flex-shrink: 0;
+    }
+    .mock-triple-bar {
+      display: flex; align-items: center; gap: 10px;
+      height: 40px; padding: 0 20px;
+      background: #1C0F05; border-bottom: 1px solid #F9731620; flex-shrink: 0;
+    }
+    .mock-triple-badge {
+      background: var(--orange); color: #fff; font-size: 10px; font-weight: 600;
+      padding: 3px 10px; border-radius: 10px; white-space: nowrap; flex-shrink: 0;
+    }
+    .mock-triple-text { font-size: 10px; color: #92400E; }
+    .mock-table-head {
+      display: flex; align-items: center; height: 36px; padding: 0 20px;
+      background: #0A0A1A; border-bottom: 1px solid var(--border2); flex-shrink: 0;
+    }
+    .mock-col { font-size: 10px; color: #4B4B6A; font-weight: 600; }
+    .mock-col-creator { width: 140px; }
+    .mock-col-date { width: 80px; }
+    .mock-col-content { flex: 1; }
+    .mock-col-link { width: 60px; }
+    .mock-col-views { width: 80px; }
+    .mock-col-eng { width: 120px; }
+    .mock-rows { overflow: hidden; }
+    .mock-row {
+      display: flex; align-items: center; height: 62px; padding: 0 20px;
+      border-bottom: 1px solid #12122A;
+    }
+    .mock-row.alt { background: #0A0A1C; }
+    .mock-row-creator { font-size: 11px; color: #7C3AED; font-weight: 500; width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mock-row-date { font-size: 11px; color: #4B4B6A; width: 80px; }
+    .mock-row-content { flex: 1; overflow: hidden; }
+    .mock-row-title { font-size: 11px; color: #D4D4D8; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mock-row-sub { font-size: 10px; color: #3F3F5A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mock-row-link { width: 60px; font-size: 13px; color: #3F3F5A; text-align: center; }
+    .mock-row-views { font-size: 11px; color: var(--text-secondary); font-weight: 600; width: 80px; }
+    .mock-row-eng { width: 120px; }
+    .eng-pill { background: #14532D; color: #4ADE80; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 10px; display: inline-block; }
+
+    /* ─── TRUST STRIP ─────────────────────────────────── */
+    .trust {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      height: auto; min-height: 72px; padding: 16px 100px; gap: 16px 48px;
+      background: var(--bg2); border-top: 1px solid var(--border2); border-bottom: 1px solid var(--border2);
+    }
+    .trust-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-muted); font-weight: 500; }
+    .trust-sep { color: var(--border); font-size: 16px; }
+
+    /* ─── PAIN ────────────────────────────────────────── */
+    .section { padding: 100px; display: flex; flex-direction: column; align-items: center; gap: 48px; }
+    .section.bg2 { background: var(--bg2); }
+    .section-header { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+    .section-header h2 { font-size: 52px; line-height: 1.05; }
+    .section-header p { font-size: 18px; color: var(--text-muted); max-width: 600px; line-height: 1.5; }
+
+    .cards-grid { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .pain-card {
+      width: 270px; background: var(--bg3); border-radius: 8px; padding: 24px; gap: 12px;
+      display: flex; flex-direction: column; border: 1px solid var(--border);
+    }
+    .pain-icon { font-size: 28px; }
+    .pain-title { font-size: 15px; font-weight: 600; }
+    .pain-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+    .arrow-down { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .arrow-down span:first-child { font-size: 32px; color: var(--purple); }
+    .arrow-down span:last-child { font-size: 16px; color: var(--purple); font-weight: 600; }
+
+    /* ─── AXES ────────────────────────────────────────── */
+    .axes-row { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+    .axis-card {
+      width: 360px; background: var(--bg3); border-radius: 10px; padding: 32px;
+      gap: 20px; display: flex; flex-direction: column;
+    }
+    .axis-top { display: flex; align-items: center; justify-content: space-between; }
+    .axis-num { font-size: 13px; font-weight: 600; letter-spacing: 2px; }
+    .axis-ico { font-size: 24px; }
+    .axis-title { font-family: 'Anton', sans-serif; font-size: 24px; line-height: 1.1; }
+    .axis-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+    .axis-divider { height: 1px; background: var(--border); }
+    .axis-feats { display: flex; flex-direction: column; gap: 10px; }
+    .axis-feat { display: flex; gap: 10px; align-items: flex-start; }
+    .axis-feat-check { font-size: 13px; font-weight: 700; flex-shrink: 0; }
+    .axis-feat-text { font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+
+    /* ─── FEATURES ────────────────────────────────────── */
+    .features-grid { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; align-items: flex-start; }
+    .feat-card {
+      width: 370px; background: var(--bg3); border-radius: 12px;
+      overflow: hidden; display: flex; flex-direction: column;
+    }
+    .feat-ill { height: 200px; background: #0A0A18; padding: 14px; overflow: hidden; position: relative; }
+    .feat-info { padding: 16px 20px 20px; display: flex; flex-direction: column; gap: 6px; }
+    .feat-name-row { display: flex; align-items: center; gap: 8px; }
+    .feat-name { font-family: 'Anton', sans-serif; font-size: 18px; }
+    .feat-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+    /* feat-ill: Chicha */
+    .ill-search {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface); border-radius: 6px; padding: 0 10px; height: 28px;
+      font-size: 11px; color: #3F3F5A; margin-bottom: 8px;
+    }
+    .ill-feed-row {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--surface); border-radius: 8px; padding: 8px; margin-bottom: 6px;
+    }
+    .ill-feed-row.highlight { background: #1A1A30; border: 1px solid var(--pink); }
+    .ill-thumb { width: 36px; height: 36px; border-radius: 4px; flex-shrink: 0; background: linear-gradient(135deg, #EC489960, #A855F760); }
+    .ill-meta { flex: 1; min-width: 0; }
+    .ill-creator { font-size: 9px; font-weight: 600; margin-bottom: 2px; }
+    .ill-hook { font-size: 9px; color: #E4E4E7; line-height: 1.3; margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ill-stats { display: flex; align-items: center; gap: 6px; font-size: 9px; color: var(--text-dim); }
+    .triple-mini { background: var(--orange); color: #fff; font-size: 8px; font-weight: 600; padding: 1px 5px; border-radius: 8px; }
+    .ill-add-btn {
+      width: 100%; background: var(--purple); color: #fff; font-size: 11px; font-weight: 600;
+      padding: 7px 0; border-radius: 6px; text-align: center; margin-top: 6px;
+    }
+
+    /* feat-ill: Gente */
+    .ill-avatars-grid { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+    .ill-avatars-row { display: flex; gap: 8px; }
+    .ill-avatar-card {
+      flex: 1; background: var(--surface); border-radius: 8px;
+      padding: 10px 8px; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .ill-avatar-card.mine { background: #1A1A30; border: 1px solid var(--amber); }
+    .ill-av-circle { width: 28px; height: 28px; border-radius: 50%; }
+    .ill-av-name { font-size: 8px; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+    .ill-av-subs { font-size: 8px; color: var(--text-dim); text-align: center; }
+    .mine-badge { background: var(--amber); color: #000; font-size: 7px; font-weight: 600; padding: 1px 5px; border-radius: 8px; }
+    .ill-niche-row { display: flex; align-items: center; gap: 8px; }
+    .ill-niche-label { font-size: 9px; color: var(--text-muted); white-space: nowrap; }
+    .ill-niche-bar { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+    .ill-niche-fill { height: 100%; background: linear-gradient(90deg, var(--amber), var(--pink)); border-radius: 3px; }
+    .ill-niche-pct { font-size: 9px; color: var(--amber); font-weight: 600; white-space: nowrap; }
+
+    /* feat-ill: Tandas */
+    .ill-ref-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 9px; color: var(--text-dim); }
+    .ill-ref-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: #1A1A30; padding: 3px 8px; border-radius: 6px;
+    }
+    .ill-ref-thumb { width: 16px; height: 16px; border-radius: 2px; background: linear-gradient(135deg, var(--pink), var(--purple)); flex-shrink: 0; }
+    .ill-ref-text { font-size: 9px; color: var(--purple); }
+    .ill-piece-card { background: var(--surface); border-radius: 8px; padding: 10px; border: 1px solid var(--purple); margin-bottom: 8px; }
+    .ill-piece-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .ill-piece-title { font-size: 9px; color: var(--purple); font-weight: 600; }
+    .ill-deadline { background: var(--orange); color: #fff; font-size: 8px; font-weight: 600; padding: 2px 6px; border-radius: 6px; }
+    .ill-piece-hook { font-size: 9px; color: #E4E4E7; line-height: 1.4; }
+    .ill-iter-row { display: flex; align-items: center; gap: 6px; }
+    .iter-pill { padding: 3px 8px; border-radius: 6px; font-size: 8px; }
+    .iter-pill.done { background: var(--border); color: var(--text-muted); }
+    .iter-pill.active { background: #A855F722; border: 1px solid var(--purple); color: var(--purple); font-weight: 600; }
+    .iter-pill.pending { background: var(--surface); border: 1px solid var(--border); color: #3F3F5A; }
+    .iter-arrow { font-size: 12px; }
+
+    /* feat-ill: Crema */
+    .ill-pills-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .ill-signal-pill {
+      display: flex; align-items: center; gap: 4px;
+      padding: 4px 8px; border-radius: 16px; background: var(--surface); font-size: 9px;
+    }
+    .ill-signal-pill.active { font-weight: 600; }
+    .ill-insight-card { background: var(--surface); border-radius: 8px; padding: 12px; border: 1px solid #A855F733; }
+    .ill-insight-eyebrow { font-size: 8px; color: var(--purple); font-weight: 600; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .ill-insight-text { font-size: 11px; color: #E4E4E7; line-height: 1.5; margin-bottom: 6px; }
+    .ill-insight-tag { background: #1A1A30; padding: 3px 8px; border-radius: 6px; font-size: 9px; color: var(--text-muted); display: inline-block; }
+
+    /* feat-ill: Clones */
+    .ill-clones-wrap { display: flex; gap: 10px; align-items: center; height: 100%; }
+    .ill-struct-col { width: 100px; display: flex; flex-direction: column; gap: 5px; }
+    .ill-struct-label { font-size: 7px; color: var(--text-dim); font-weight: 600; letter-spacing: 1px; margin-bottom: 2px; }
+    .ill-block { padding: 5px 8px; border-radius: 4px; font-size: 8px; font-weight: 700; }
+    .ill-arrow-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ill-arrow-icon { font-size: 10px; }
+    .ill-arrow-ai { font-family: 'Anton', sans-serif; font-size: 11px; }
+    .ill-arrow-sym { font-size: 18px; }
+    .ill-clones-col { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .ill-clone-item { background: var(--surface); border-radius: 6px; padding: 6px 8px; border: 1px solid var(--border); font-size: 8px; color: #E4E4E7; line-height: 1.4; }
+
+    /* feat-ill: Lab */
+    .ill-lab-wrap { display: flex; gap: 14px; align-items: center; height: 100%; }
+    .ill-score-col { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 110px; flex-shrink: 0; }
+    .ill-score-ring {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--surface); border: 4px solid var(--green);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .ill-score-num { font-family: 'Anton', sans-serif; font-size: 26px; line-height: 1; }
+    .ill-score-denom { font-size: 9px; color: var(--text-dim); }
+    .ill-tier-pill { background: #10B98122; border: 1px solid var(--green); color: var(--green); font-size: 9px; font-weight: 600; padding: 3px 8px; border-radius: 8px; }
+    .ill-metrics-col { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+    .ill-metrics-label { font-size: 7px; color: var(--text-dim); font-weight: 600; letter-spacing: 1px; margin-bottom: 2px; }
+    .ill-metric-row { display: flex; flex-direction: column; gap: 3px; }
+    .ill-metric-header { display: flex; justify-content: space-between; }
+    .ill-metric-name { font-size: 9px; color: var(--text-muted); }
+    .ill-metric-val { font-size: 9px; color: #E4E4E7; font-weight: 600; }
+    .ill-metric-bar { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+    .ill-metric-fill { height: 100%; border-radius: 2px; }
+    .ill-projection { font-size: 9px; color: var(--green); line-height: 1.3; margin-top: 2px; }
+
+    /* secondary features */
+    .secondary-grid { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .secondary-divider { font-size: 13px; color: #3F3F5A; font-weight: 500; margin-bottom: -24px; }
+    .sec-card {
+      width: 272px; background: #0A0A18; border-radius: 10px; padding: 18px 18px 20px;
+      display: flex; flex-direction: column; gap: 10px; border: 1px solid #1A1A2E;
+    }
+    .sec-card-top { display: flex; align-items: center; gap: 10px; }
+    .sec-ico-bg { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+    .sec-name { font-family: 'Anton', sans-serif; font-size: 16px; }
+    .sec-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+    .sec-tag { padding: 3px 8px; border-radius: 6px; font-size: 10px; font-weight: 500; display: inline-block; width: fit-content; }
+
+    /* ─── PROOF ───────────────────────────────────────── */
+    .proof-inner {
+      display: flex; gap: 80px; align-items: center; width: 100%; max-width: 1200px;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .proof-copy { width: 420px; display: flex; flex-direction: column; gap: 20px; }
+    .proof-eyebrow {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: #A855F722; padding: 5px 12px; border-radius: 20px;
+      font-size: 11px; color: var(--purple); font-weight: 600; width: fit-content;
+    }
+    .proof-copy h2 { font-size: 44px; line-height: 1.08; }
+    .proof-copy p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+    .proof-stats { display: flex; gap: 28px; }
+    .proof-stat { display: flex; flex-direction: column; gap: 2px; }
+    .proof-stat-val { font-family: 'Anton', sans-serif; font-size: 28px; color: var(--purple); }
+    .proof-stat-label { font-size: 11px; color: var(--text-dim); }
+    .proof-note { font-size: 13px; color: #3F3F5A; line-height: 1.5; }
+    .proof-chart-wrap { flex: 1; min-width: 500px; }
+    .proof-chart-box {
+      background: #0D0D1F; border-radius: 12px; overflow: hidden;
+      border: 1px solid #1E1E3A;
+    }
+    .proof-chart-profile {
+      display: flex; align-items: center; gap: 12px; height: 60px; padding: 0 20px;
+      background: var(--bg4); border-bottom: 1px solid var(--border2);
+    }
+    .proof-av { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), var(--pink)); flex-shrink: 0; }
+    .proof-prof-name { font-size: 11px; color: #D4D4D8; font-weight: 500; }
+    .proof-prof-sub { font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+    .proof-period { margin-left: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+    .proof-metrics { display: flex; border-bottom: 1px solid var(--border2); background: #0A0A1A; }
+    .proof-metric {
+      flex: 1; padding: 8px 12px; border-right: 1px solid var(--border2);
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .proof-metric:last-child { border-right: none; }
+    .proof-metric-label { font-size: 9px; color: var(--text-dim); }
+    .proof-metric-val { font-family: 'Anton', sans-serif; font-size: 18px; }
+    .proof-metric-val.highlight { color: var(--purple); }
+    .proof-metric-delta { font-size: 9px; color: var(--text-dim); }
+    .proof-graph { height: 180px; padding: 12px 20px 24px; position: relative; background: var(--bg4); overflow: hidden; }
+    .proof-graph-lines { position: absolute; left: 0; right: 0; top: 12px; bottom: 24px; }
+    .proof-graph-line { position: absolute; left: 40px; right: 20px; height: 1px; background: var(--border2); }
+    .proof-bars { position: absolute; left: 40px; right: 20px; bottom: 24px; top: 12px; display: flex; align-items: flex-end; gap: 4px; }
+    .proof-bar { border-radius: 2px 2px 0 0; flex: 1; transition: height .3s; }
+    .proof-bar.pre { background: #1E1E3A; opacity: 0.6; }
+    .proof-bar.post { background: linear-gradient(0deg, var(--purple), var(--pink)); }
+    .proof-tandora-line {
+      position: absolute; top: 12px; bottom: 24px; width: 1px;
+      background: #A855F766;
+    }
+    .proof-tandora-label {
+      position: absolute; top: 12px; background: #A855F722;
+      padding: 3px 8px; border-radius: 4px; font-size: 9px; color: var(--purple); font-weight: 600;
+      white-space: nowrap;
+    }
+    .proof-x-labels { position: absolute; bottom: 4px; left: 40px; right: 20px; display: flex; justify-content: space-between; }
+    .proof-x-label { font-size: 8px; }
+    .proof-y-labels { position: absolute; left: 4px; top: 12px; bottom: 24px; display: flex; flex-direction: column; justify-content: space-between; }
+    .proof-y-label { font-size: 8px; color: var(--text-dimmer); }
+
+    /* ─── MANIFESTO ───────────────────────────────────── */
+    .manifesto-box {
+      width: 700px; max-width: 100%; background: var(--bg3); border-radius: 10px; padding: 32px;
+      border: 1px solid var(--border); display: flex; flex-direction: column; gap: 12px; text-align: center;
+    }
+    .manifesto-eyebrow { font-size: 12px; color: var(--text-dim); font-weight: 600; letter-spacing: 1.5px; }
+    .manifesto-algo { font-family: 'Anton', sans-serif; font-size: 22px; line-height: 1.2; }
+    .manifesto-sub { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+
+    /* ─── PRICING ─────────────────────────────────────── */
+    .pricing-card {
+      width: 440px; max-width: 100%; background: var(--bg3); border-radius: 12px; padding: 40px;
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
+      border: 1px solid #A855F733; box-shadow: 0 0 40px #A855F730;
+    }
+    .pricing-badge { background: #A855F722; color: var(--purple); font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
+    .pricing-price-row { display: flex; align-items: flex-end; gap: 4px; }
+    .pricing-num { font-family: 'Anton', sans-serif; font-size: 72px; line-height: 1; }
+    .pricing-suffix { display: flex; flex-direction: column; gap: 2px; padding-bottom: 8px; }
+    .pricing-euro { font-family: 'Anton', sans-serif; font-size: 28px; color: var(--purple); }
+    .pricing-mes { font-size: 14px; color: var(--text-muted); }
+    .pricing-note { font-size: 13px; color: var(--text-dim); }
+    .pricing-divider { height: 1px; background: var(--border); width: 100%; }
+    .pricing-perks { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+    .pricing-perk { display: flex; gap: 10px; align-items: center; }
+    .perk-check { color: var(--purple); font-weight: 700; font-size: 14px; }
+    .perk-text { font-size: 14px; color: var(--text-secondary); }
+    .pricing-cta {
+      width: 100%; background: var(--purple); color: #fff; font-size: 16px; font-weight: 600;
+      padding: 14px 0; border-radius: 8px; text-align: center; text-decoration: none;
+      transition: opacity .2s; display: block;
+    }
+    .pricing-cta:hover { opacity: .85; }
+    .pricing-footer { font-size: 13px; color: var(--text-dim); }
+
+    /* ─── FINAL CTA ───────────────────────────────────── */
+    .final-cta { display: flex; flex-direction: column; align-items: center; gap: 32px; padding: 100px; text-align: center; background: var(--bg2); }
+    .final-cta h2 { font-size: 60px; line-height: 1.05; max-width: 900px; }
+    .final-cta p { font-size: 20px; color: var(--text-secondary); max-width: 600px; }
+    .final-note { font-size: 13px; color: #3F3F5A; }
+
+    /* ─── FOOTER ──────────────────────────────────────── */
+    footer {
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+      height: auto; min-height: 80px; padding: 20px 100px;
+      background: var(--bg); border-top: 1px solid var(--border2);
+    }
+    .footer-logo { font-family: 'Anton', sans-serif; font-size: 20px; letter-spacing: 1px; }
+    .footer-links { display: flex; gap: 32px; }
+    .footer-links a { font-size: 13px; color: var(--text-dim); text-decoration: none; }
+    .footer-links a:hover { color: var(--text-muted); }
+    .footer-copy { font-size: 13px; color: #3F3F5A; }
+
+    /* ─── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 1100px) {
+      nav, .hero, .section, .final-cta, footer { padding-left: 40px; padding-right: 40px; }
+      .trust { padding-left: 40px; padding-right: 40px; }
+      .hero h1 { font-size: 64px; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 60px 24px; }
+      .hero h1 { font-size: 48px; }
+      .hero-sub { font-size: 16px; }
+      .section { padding: 60px 24px; }
+      .final-cta { padding: 60px 24px; }
+      .final-cta h2 { font-size: 40px; }
+      footer { padding: 20px 24px; flex-direction: column; align-items: flex-start; }
+      .trust { padding: 16px 24px; }
+      .hero-mockup { height: 360px; }
+      .proof-inner { gap: 40px; }
+      .proof-copy { width: 100%; }
+      .proof-chart-wrap { min-width: unset; width: 100%; }
+      .axis-card, .feat-card { width: 100%; max-width: 400px; }
+      .pain-card { width: 100%; max-width: 340px; }
+      .sec-card { width: 100%; max-width: 340px; }
+      .manifesto-box { width: 100%; }
+      .pricing-card { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">tandora</a>
+  <div class="nav-links">
+    <a href="#como-funciona">Cómo funciona</a>
+    <a href="#funciones">Funciones</a>
+    <a href="#precio">Precio</a>
+  </div>
+  <a href="https://app.tandora.app" class="nav-cta">Empieza ahora →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🧪 Laboratorio estratégico para creadores de TikTok</div>
+  <h1>Para de publicar<br>a ciegas.</h1>
+  <p class="hero-sub">Tandora convierte tu creación de contenido en un proceso medible: referencias reales, planificación con IA y métricas que revelan qué está petando en tu nicho. No virales mágicos. Método.</p>
+  <div class="hero-btns">
+    <a href="https://app.tandora.app" class="btn-primary">Empieza gratis</a>
+    <a href="#como-funciona" class="btn-outline">Ver cómo funciona</a>
+  </div>
+  <p class="hero-note">12 €/mes · Sin permanencia · Cancela cuando quieras</p>
+
+  <!-- Mockup Chicha -->
+  <div class="hero-mockup">
+    <div class="mock-sidebar">
+      <div class="mock-logo-row">
+        <div class="mock-logo-sq"></div>
+        <span class="mock-logo-text">Tandora</span>
+      </div>
+      <div class="mock-divider"></div>
+      <div class="mock-nav-item">🏠 Casa</div>
+      <div class="mock-nav-item active">🥩 Chicha</div>
+      <div class="mock-nav-item">🍦 Crema</div>
+      <div class="mock-nav-item">📅 Tandas</div>
+      <div class="mock-nav-item">🛟 Rescates</div>
+      <div class="mock-nav-item">🧪 Lab</div>
+      <div class="mock-nav-item">🧬 Clones</div>
+      <div class="mock-nav-item">👥 Gente</div>
+      <div class="mock-nav-item">⚡ Hooks</div>
+      <div class="mock-nav-item">🎴 Alivios</div>
+      <div class="mock-nav-item">🎬 Script to Clip</div>
+    </div>
+    <div class="mock-main">
+      <div class="mock-topbar">
+        <div class="mock-search">🔍 Buscar por hook o descripción...</div>
+        <div class="mock-filter">Todas las cuentas <span>∨</span></div>
+        <div class="mock-add-btn">+ Añadir desde TikTok</div>
+      </div>
+      <div class="mock-triple-bar">
+        <div class="mock-triple-badge">🔥 Triple señal</div>
+        <div class="mock-triple-text">Indica que ese post supera el promedio de tus cuentas de referencia en comentarios, compartidos y guardados al mismo tiempo.</div>
+      </div>
+      <div class="mock-table-head">
+        <div class="mock-col mock-col-creator">Creador ↕</div>
+        <div class="mock-col mock-col-date">Fecha ↕</div>
+        <div class="mock-col mock-col-content">Contenido ↕</div>
+        <div class="mock-col mock-col-link">Enlace ↕</div>
+        <div class="mock-col mock-col-views">Views ↕</div>
+        <div class="mock-col mock-col-eng">Engagement ↕</div>
+      </div>
+      <div class="mock-rows">
+        <div class="mock-row">
+          <div class="mock-row-creator">@javiniguezoficial</div>
+          <div class="mock-row-date">30 mar 2026</div>
+          <div class="mock-row-content">
+            <div class="mock-row-title">La IA ya sabe hacer animaciones PRO con GSAP 🤯 #ia #gsap</div>
+            <div class="mock-row-sub">#ia #gsap #developer #claude #gemini</div>
+          </div>
+          <div class="mock-row-link">↗</div>
+          <div class="mock-row-views">58.0K</div>
+          <div class="mock-row-eng"><span class="eng-pill">24.15%</span></div>
+        </div>
+        <div class="mock-row alt">
+          <div class="mock-row-creator">@marjorihaddad</div>
+          <div class="mock-row-date">16 ene 2026</div>
+          <div class="mock-row-content">
+            <div class="mock-row-title">Opus esta a punto de convertirse en la navaja suiza de la edición</div>
+            <div class="mock-row-sub">Comenta ybte mando el enlace. #opusclip #agentopus...</div>
+          </div>
+          <div class="mock-row-link">↗</div>
+          <div class="mock-row-views">51.1K</div>
+          <div class="mock-row-eng"><span class="eng-pill">23.32%</span></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-row-creator">@soy.adnan</div>
+          <div class="mock-row-date">28 mar 2026</div>
+          <div class="mock-row-content">
+            <div class="mock-row-title">5 códigos secretos para Claude</div>
+            <div class="mock-row-sub">#claude #trucoia #ia #inteligenciaartificial #prompt</div>
+          </div>
+          <div class="mock-row-link">↗</div>
+          <div class="mock-row-views">63.8K</div>
+          <div class="mock-row-eng"><span class="eng-pill">23.1%</span></div>
+        </div>
+        <div class="mock-row alt">
+          <div class="mock-row-creator">@mouredev</div>
+          <div class="mock-row-date">4 may 2026</div>
+          <div class="mock-row-content">
+            <div class="mock-row-title">🚀 Aprende a trabajar con ramas de Git de forma interactiva</div>
+            <div class="mock-row-sub">Aprende con este juego a dominar los 8 comandos principales...</div>
+          </div>
+          <div class="mock-row-link">↗</div>
+          <div class="mock-row-views">11.0K</div>
+          <div class="mock-row-eng"><span class="eng-pill">22.78%</span></div>
+        </div>
+        <div class="mock-row">
+          <div class="mock-row-creator">@javiniguezoficial</div>
+          <div class="mock-row-date">6 may 2026</div>
+          <div class="mock-row-content">
+            <div class="mock-row-title">La web con más de 2.000 archivos DESIGN.md para IA</div>
+            <div class="mock-row-sub">#ia #ui #frontend #developer #ux</div>
+          </div>
+          <div class="mock-row-link">↗</div>
+          <div class="mock-row-views">1.2K</div>
+          <div class="mock-row-eng"><span class="eng-pill">21.48%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-item">📊 +200 vídeos de referencia analizados</div>
+  <span class="trust-sep">·</span>
+  <div class="trust-item">🎯 Viral Score 0-100 por cada pieza</div>
+  <span class="trust-sep">·</span>
+  <div class="trust-item">🤖 IA con contexto real de tu nicho</div>
+  <span class="trust-sep">·</span>
+  <div class="trust-item">💳 12 €/mes · Sin permanencia</div>
+</div>
+
+<!-- PAIN -->
+<section class="section" id="como-funciona">
+  <div class="section-header">
+    <h2>¿Publicas mucho y no creces?</h2>
+    <p>No es tu culpa. Es que lo estás haciendo sin datos.</p>
+  </div>
+  <div class="cards-grid">
+    <div class="pain-card">
+      <div class="pain-icon">🎲</div>
+      <div class="pain-title">Publicas por intuición</div>
+      <div class="pain-desc">Sin saber qué estructura, hook o ángulo está petando realmente en tu nicho ahora mismo.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">🔁</div>
+      <div class="pain-title">No iteras</div>
+      <div class="pain-desc">Cada vídeo es un intento nuevo. Sin v2, v3. Sin aprender del anterior porque no sabes qué cambiar.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">📋</div>
+      <div class="pain-title">Usas plantillas vacías</div>
+      <div class="pain-desc">Genéricas, de otro nicho, sin referencia real. Se nota en el engagement y lo sabes.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon">🤷</div>
+      <div class="pain-title">Ves crecer a otros</div>
+      <div class="pain-desc">Y no entiendes por qué. Ellos tienen el mismo tiempo, el mismo equipo. ¿Qué hacen diferente?</div>
+    </div>
+  </div>
+  <div class="arrow-down">
+    <span>↓</span>
+    <span>Hay una forma mejor.</span>
+  </div>
+</section>
+
+<!-- AXES -->
+<section class="section bg2">
+  <div class="section-header">
+    <h2>Tu proceso, con método</h2>
+    <p>Tandora no te da plantillas. Te da el sistema para crear tus propias fórmulas.</p>
+  </div>
+  <div class="axes-row">
+    <div class="axis-card" style="border:1px solid #A855F733">
+      <div class="axis-top">
+        <span class="axis-num" style="color:#A855F7">01</span>
+        <span class="axis-ico">👁</span>
+      </div>
+      <div class="axis-title" style="color:#fff">Observación inteligente</div>
+      <div class="axis-desc">Analiza las cuentas que ya funcionan en tu nicho. Extrae hooks reales, ángulos ganadores y estructuras virales — no opiniones, datos.</div>
+      <div class="axis-divider"></div>
+      <div class="axis-feats">
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#A855F7">✓</span><span class="axis-feat-text">Feed de referencias con métricas reales</span></div>
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#A855F7">✓</span><span class="axis-feat-text">Top Hooks por categoría y tasa de interacción</span></div>
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#A855F7">✓</span><span class="axis-feat-text">Triple señal 🔥 (comentarios + compartidos + guardados)</span></div>
+      </div>
+    </div>
+    <div class="axis-card" style="border:1px solid #EC489933">
+      <div class="axis-top">
+        <span class="axis-num" style="color:#EC4899">02</span>
+        <span class="axis-ico">📅</span>
+      </div>
+      <div class="axis-title" style="color:#fff">Planificación accionable</div>
+      <div class="axis-desc">Agrupa ideas en tandas con deadline, referencia real vinculada y guion completo generado por IA. Sin página en blanco nunca más.</div>
+      <div class="axis-divider"></div>
+      <div class="axis-feats">
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#EC4899">✓</span><span class="axis-feat-text">Content Builder con hook, desarrollo y CTA</span></div>
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#EC4899">✓</span><span class="axis-feat-text">IA genera el guion completo en un clic</span></div>
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#EC4899">✓</span><span class="axis-feat-text">Countdown a color: verde → naranja → rojo</span></div>
+      </div>
+    </div>
+    <div class="axis-card" style="border:1px solid #06B6D433">
+      <div class="axis-top">
+        <span class="axis-num" style="color:#06B6D4">03</span>
+        <span class="axis-ico">🧪</span>
+      </div>
+      <div class="axis-title" style="color:#fff">Experimentación medible</div>
+      <div class="axis-desc">Publica, mide, compara contra tu referencia y detecta qué patrones se repiten en tus vídeos ganadores. Itera con criterio.</div>
+      <div class="axis-divider"></div>
+      <div class="axis-feats">
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#06B6D4">✓</span><span class="axis-feat-text">Viral Score 0-100 por cada vídeo</span></div>
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#06B6D4">✓</span><span class="axis-feat-text">Comparativa real vs referencia con flechas ↑/↓</span></div>
+        <div class="axis-feat"><span class="axis-feat-check" style="color:#06B6D4">✓</span><span class="axis-feat-text">Proyección de crecimiento si mantienes el ritmo</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="funciones">
+  <div class="section-header">
+    <h2>Todo lo que necesitas.<br>Nada de lo que no.</h2>
+    <p>Cada módulo tiene un propósito concreto y empuja hacia las señales que el algoritmo realmente valora.</p>
+  </div>
+  <div class="features-grid">
+
+    <!-- Chicha -->
+    <div class="feat-card" style="border:1px solid #EC489922">
+      <div class="feat-ill">
+        <div class="ill-search">🔍 Buscar por hook o descripción...</div>
+        <div class="ill-feed-row highlight">
+          <div class="ill-thumb"></div>
+          <div class="ill-meta">
+            <div class="ill-creator" style="color:#EC4899">@marjorihaddad</div>
+            <div class="ill-hook">Opus está a punto de convertirse en la navaja suiza de la edición</div>
+            <div class="ill-stats"><span class="triple-mini">🔥 Triple</span> 51.1K · 23.3%</div>
+          </div>
+        </div>
+        <div class="ill-feed-row">
+          <div class="ill-thumb"></div>
+          <div class="ill-meta">
+            <div class="ill-creator" style="color:#EC4899">@javiniguez</div>
+            <div class="ill-hook">La IA ya sabe hacer animaciones PRO con GSAP</div>
+            <div class="ill-stats"><span class="triple-mini">🔥 Triple</span> 58.0K · 24.1%</div>
+          </div>
+        </div>
+        <div class="ill-add-btn">Añadir a tanda →</div>
+      </div>
+      <div class="feat-info">
+        <div class="feat-name-row"><span>🥩</span><span class="feat-name">Chicha</span></div>
+        <div class="feat-desc">Ve lo que está petando en tu nicho ahora mismo. Filtra por Triple señal 🔥 y añade cualquier vídeo a tu próxima tanda en dos clics.</div>
+      </div>
+    </div>
+
+    <!-- Gente -->
+    <div class="feat-card" style="border:1px solid #F59E0B22">
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-avatars-grid">
+          <div class="ill-avatars-row">
+            <div class="ill-avatar-card mine">
+              <div class="ill-av-circle" style="background:#A855F766"></div>
+              <div class="ill-av-name" style="color:#F59E0B">avidoos</div>
+              <div class="ill-av-subs">2K seg.</div>
+              <span class="mine-badge">Mi cuenta</span>
+            </div>
+            <div class="ill-avatar-card">
+              <div class="ill-av-circle" style="background:#EC489966"></div>
+              <div class="ill-av-name">marjorihaddad</div>
+              <div class="ill-av-subs">715K</div>
+            </div>
+            <div class="ill-avatar-card">
+              <div class="ill-av-circle" style="background:#06B6D466"></div>
+              <div class="ill-av-name">mouredev</div>
+              <div class="ill-av-subs">379K</div>
+            </div>
+          </div>
+          <div class="ill-avatars-row">
+            <div class="ill-avatar-card">
+              <div class="ill-av-circle" style="background:#F59E0B66"></div>
+              <div class="ill-av-name">rpn</div>
+              <div class="ill-av-subs">463K</div>
+            </div>
+            <div class="ill-avatar-card">
+              <div class="ill-av-circle" style="background:#10B98166"></div>
+              <div class="ill-av-name">nathanhodgson_</div>
+              <div class="ill-av-subs">119K</div>
+            </div>
+            <div class="ill-avatar-card">
+              <div class="ill-av-circle" style="background:#8B5CF666"></div>
+              <div class="ill-av-name">willfrancis24</div>
+              <div class="ill-av-subs">206K</div>
+            </div>
+          </div>
+        </div>
+        <div class="ill-niche-row">
+          <span class="ill-niche-label">Niche Match</span>
+          <div class="ill-niche-bar"><div class="ill-niche-fill" style="width:78%"></div></div>
+          <span class="ill-niche-pct">78%</span>
+        </div>
+      </div>
+      <div class="feat-info">
+        <div class="feat-name-row"><span>👥</span><span class="feat-name">Gente</span></div>
+        <div class="feat-desc">Tus referencias y tu cuenta propia, en un panel. El Niche Match te dice si estás mirando las cuentas correctas para tu nicho.</div>
+      </div>
+    </div>
+
+    <!-- Tandas -->
+    <div class="feat-card" style="border:1px solid #A855F722">
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-ref-row">Referencia:
+          <div class="ill-ref-pill">
+            <div class="ill-ref-thumb"></div>
+            <span class="ill-ref-text">@marjorihaddad · 23.3% eng</span>
+          </div>
+        </div>
+        <div class="ill-piece-card">
+          <div class="ill-piece-header">
+            <span class="ill-piece-title">📝 Mi versión</span>
+            <span class="ill-deadline">⏱ 3 días</span>
+          </div>
+          <div class="ill-piece-hook">HOOK (IA): "El error que cometen todos los creadores al empezar — y cómo evitarlo en 30 segundos"</div>
+        </div>
+        <div class="ill-iter-row">
+          <span class="iter-pill done">v1 publicada</span>
+          <span class="iter-arrow" style="color:#A855F7">→</span>
+          <span class="iter-pill active">v2 en progreso</span>
+          <span class="iter-arrow" style="color:#3F3F5A">→</span>
+          <span class="iter-pill pending">v3 pendiente</span>
+        </div>
+      </div>
+      <div class="feat-info">
+        <div class="feat-name-row"><span>📅</span><span class="feat-name">Tandas</span></div>
+        <div class="feat-desc">Toma una referencia real, genera el guion con IA y comprométete con un deadline. Después itera: v2, v3... hasta que funcione.</div>
+      </div>
+    </div>
+
+    <!-- Crema -->
+    <div class="feat-card" style="border:1px solid #8B5CF622">
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-pills-row">
+          <div class="ill-signal-pill active" style="background:#A855F722;border:1px solid #A855F7;color:#A855F7">💬 Comentarios</div>
+          <div class="ill-signal-pill" style="color:#52525B">🔄 Compartidos</div>
+          <div class="ill-signal-pill" style="color:#52525B">📌 Guardados</div>
+          <div class="ill-signal-pill" style="color:#52525B">❤️ Likes</div>
+        </div>
+        <div class="ill-insight-card">
+          <div class="ill-insight-eyebrow">🤖 Insight generado por IA</div>
+          <div class="ill-insight-text">Los vídeos que empiezan con una pregunta directa generan 3.2x más comentarios que los que abren con dato o afirmación.</div>
+          <span class="ill-insight-tag">Táctica: abre con una pregunta que tus seguidores ya se están haciendo</span>
+        </div>
+      </div>
+      <div class="feat-info">
+        <div class="feat-name-row"><span>🍦</span><span class="feat-name">Crema</span></div>
+        <div class="feat-desc">Insights estratégicos por cada señal del algoritmo. La IA analiza tus referencias y te dice exactamente qué provocar — y cómo.</div>
+      </div>
+    </div>
+
+    <!-- Clones -->
+    <div class="feat-card" style="border:1px solid #06B6D422">
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-clones-wrap">
+          <div class="ill-struct-col">
+            <div class="ill-struct-label">ESTRUCTURA</div>
+            <div class="ill-block" style="background:#A855F722;border:1px solid #A855F766;color:#A855F7">HOOK</div>
+            <div class="ill-block" style="background:#EC489922;border:1px solid #EC489966;color:#EC4899">DESARROLLO</div>
+            <div class="ill-block" style="background:#06B6D422;border:1px solid #06B6D466;color:#06B6D4">GIRO</div>
+            <div class="ill-block" style="background:#F59E0B22;border:1px solid #F59E0B66;color:#F59E0B">CTA</div>
+          </div>
+          <div class="ill-arrow-col">
+            <span class="ill-arrow-icon" style="color:#06B6D4">✦</span>
+            <span class="ill-arrow-ai" style="color:#06B6D4">IA</span>
+            <span class="ill-arrow-sym" style="color:#06B6D4">→</span>
+          </div>
+          <div class="ill-clones-col">
+            <div class="ill-struct-label">CLONES</div>
+            <div class="ill-clone-item">"Nadie te dice esto sobre crecer en TikTok sin dinero"</div>
+            <div class="ill-clone-item">"El error que frena a todos los creadores novatos"</div>
+            <div class="ill-clone-item">"Por qué tu nicho no te funciona (y cómo arreglarlo)"</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-info">
+        <div class="feat-name-row"><span>🧬</span><span class="feat-name">Clones</span></div>
+        <div class="feat-desc">Captura la estructura de un vídeo viral — bloques, giro, CTA — y genera N variaciones adaptadas a tu tema en segundos.</div>
+      </div>
+    </div>
+
+    <!-- Lab -->
+    <div class="feat-card" style="border:1px solid #06B6D422">
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-lab-wrap">
+          <div class="ill-score-col">
+            <div class="ill-score-ring">
+              <span class="ill-score-num">71</span>
+              <span class="ill-score-denom">/100</span>
+            </div>
+            <span class="ill-tier-pill">🏆 Funcionó</span>
+          </div>
+          <div class="ill-metrics-col">
+            <div class="ill-metrics-label">MÉTRICAS</div>
+            <div class="ill-metric-row">
+              <div class="ill-metric-header"><span class="ill-metric-name">Views</span><span class="ill-metric-val">85.8K</span></div>
+              <div class="ill-metric-bar"><div class="ill-metric-fill" style="width:78%;background:#A855F7"></div></div>
+            </div>
+            <div class="ill-metric-row">
+              <div class="ill-metric-header"><span class="ill-metric-name">Engagement</span><span class="ill-metric-val">9.61%</span></div>
+              <div class="ill-metric-bar"><div class="ill-metric-fill" style="width:65%;background:#EC4899"></div></div>
+            </div>
+            <div class="ill-metric-row">
+              <div class="ill-metric-header"><span class="ill-metric-name">Retención</span><span class="ill-metric-val">20.1%</span></div>
+              <div class="ill-metric-bar"><div class="ill-metric-fill" style="width:55%;background:#06B6D4"></div></div>
+            </div>
+            <div class="ill-projection">↗ Proyección: +340 seg. si mantienes este ritmo 30 días</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-info">
+        <div class="feat-name-row"><span>🧪</span><span class="feat-name">Lab</span></div>
+        <div class="feat-desc">Viral Score 0-100, patrones en tus hooks ganadores y proyección de crecimiento real. Trata cada vídeo como un experimento con resultados medibles.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Secondary -->
+  <div class="secondary-divider">Y además...</div>
+  <div class="secondary-grid">
+    <div class="sec-card">
+      <div class="sec-card-top">
+        <div class="sec-ico-bg" style="background:#F59E0B18">🛟</div>
+        <span class="sec-name">Rescates</span>
+      </div>
+      <div class="sec-desc">Todas tus iteraciones en un lugar. Cada vídeo que no funcionó tiene una v2 esperando — Rescates te muestra cuál es el siguiente intento.</div>
+      <span class="sec-tag" style="background:#F59E0B15;color:#F59E0B">Itera sin perder el hilo</span>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-top">
+        <div class="sec-ico-bg" style="background:#A855F718">⚡</div>
+        <span class="sec-name">Hooks</span>
+      </div>
+      <div class="sec-desc">Tu banco personal de ganchos. Documenta los que funcionan, clasifícalos por tipo y reutilízalos cuando el cursor parpadea en blanco.</div>
+      <span class="sec-tag" style="background:#A855F715;color:#A855F7">Tu colección propia</span>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-top">
+        <div class="sec-ico-bg" style="background:#06B6D418">🎬</div>
+        <span class="sec-name">Script to Clip</span>
+      </div>
+      <div class="sec-desc">Del guion al rodaje en un paso. Segmenta el texto en clips, define el tipo de plano y llega a grabar sabiendo exactamente qué hacer.</div>
+      <span class="sec-tag" style="background:#06B6D415;color:#06B6D4">Sin improvisar en cámara</span>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-top">
+        <div class="sec-ico-bg" style="background:#EC489918">📹</div>
+        <span class="sec-name">Vídeo a guión</span>
+      </div>
+      <div class="sec-desc">Sube un vídeo que te haya inspirado y obtén su guion completo para analizarlo, adaptarlo y usarlo como base para tu próxima pieza.</div>
+      <span class="sec-tag" style="background:#EC489915;color:#EC4899">Ingeniería inversa viral</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="section">
+  <div class="proof-inner">
+    <div class="proof-copy">
+      <div class="proof-eyebrow">📈 Datos reales · @avidoos · TikTok</div>
+      <h2>Esto es lo que pasa cuando dejas de publicar a ciegas.</h2>
+      <p>Empecé a usar Tandora en abril. Antes publicaba y esperaba. Después empecé a mirar qué estructuras y hooks estaban funcionando en mi nicho, a planificar con referencia real y a medir cada pieza.</p>
+      <div class="proof-stats">
+        <div class="proof-stat"><span class="proof-stat-val">280K</span><span class="proof-stat-label">visualizaciones</span></div>
+        <div class="proof-stat"><span class="proof-stat-val">×38</span><span class="proof-stat-label">más compartidos</span></div>
+        <div class="proof-stat"><span class="proof-stat-val">2.9K</span><span class="proof-stat-label">seguidores</span></div>
+      </div>
+      <p class="proof-note">En 60 días. Sin cambiar la cámara, sin más horas de grabación, sin contratar a nadie.</p>
+    </div>
+    <div class="proof-chart-wrap">
+      <div class="proof-chart-box">
+        <div class="proof-chart-profile">
+          <div class="proof-av"></div>
+          <div>
+            <div class="proof-prof-name">avidoos · Construyendo y mejorando negocios con la IA Teaching Marketing & IA</div>
+            <div class="proof-prof-sub">Me gusta 46K · Seguidores 2.9K · Siguiendo 134</div>
+          </div>
+          <div class="proof-period">Últimos 60 días ∨</div>
+        </div>
+        <div class="proof-metrics">
+          <div class="proof-metric"><div class="proof-metric-label">Visualizaciones</div><div class="proof-metric-val highlight">280.4K</div><div class="proof-metric-delta">+1,594%</div></div>
+          <div class="proof-metric"><div class="proof-metric-label">Perfil</div><div class="proof-metric-val">1.5K</div><div class="proof-metric-delta">+1,222%</div></div>
+          <div class="proof-metric"><div class="proof-metric-label">Me gusta</div><div class="proof-metric-val">11.6K</div><div class="proof-metric-delta">+2,435%</div></div>
+          <div class="proof-metric"><div class="proof-metric-label">Comentarios</div><div class="proof-metric-val">427</div><div class="proof-metric-delta">+3,781%</div></div>
+          <div class="proof-metric"><div class="proof-metric-label">Compartidos</div><div class="proof-metric-val">2.6K</div><div class="proof-metric-delta">+6,854%</div></div>
+        </div>
+        <div class="proof-graph">
+          <div class="proof-y-labels">
+            <span class="proof-y-label">60K</span>
+            <span class="proof-y-label">40K</span>
+            <span class="proof-y-label">20K</span>
+          </div>
+          <div class="proof-graph-lines">
+            <div class="proof-graph-line" style="top:0%"></div>
+            <div class="proof-graph-line" style="top:33%"></div>
+            <div class="proof-graph-line" style="top:66%"></div>
+          </div>
+          <div class="proof-bars" id="proof-bars"></div>
+          <div class="proof-x-labels">
+            <span class="proof-x-label" style="color:#2E2E4A">27 mar</span>
+            <span class="proof-x-label" style="color:#2E2E4A">8 abr</span>
+            <span class="proof-x-label" style="color:#A855F7">16 abr</span>
+            <span class="proof-x-label" style="color:#A855F7">1 may</span>
+            <span class="proof-x-label" style="color:#A855F7">15 may</span>
+            <span class="proof-x-label" style="color:#A855F7">25 may</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="section bg2">
+  <div class="section-header">
+    <h2 style="font-size:60px;max-width:900px">Aquí no se crece de golpe<br>ni por accidente.</h2>
+    <p style="font-size:22px;color:#A855F7;font-weight:600;max-width:700px">Se crece despacio, bien y con identidad propia.</p>
+    <p style="max-width:620px">Sin atajos. Sin plantillas vacías. Sin publicar a ciegas.<br>Tandora es para creadores que prefieren entender antes de repetir.</p>
+  </div>
+  <div class="manifesto-box">
+    <div class="manifesto-eyebrow">LA FILOSOFÍA ALGORÍTMICA DE TANDORA</div>
+    <div class="manifesto-algo">Comentarios &nbsp;>&nbsp; Compartidos &nbsp;>&nbsp; Guardados &nbsp;>&nbsp; Tiempo de visualización</div>
+    <div class="manifesto-sub">Cada herramienta en Tandora te empuja a buscar esas señales — no vistas vacías.</div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section" id="precio">
+  <div class="section-header">
+    <h2>Un precio. Un plan.<br>Sin sorpresas.</h2>
+    <p>Acceso completo a todo Tandora. Cancelas en un clic.</p>
+  </div>
+  <div class="pricing-card">
+    <span class="pricing-badge">Tandora Pro</span>
+    <div class="pricing-price-row">
+      <span class="pricing-num">12</span>
+      <div class="pricing-suffix">
+        <span class="pricing-euro">€</span>
+        <span class="pricing-mes">/mes</span>
+      </div>
+    </div>
+    <p class="pricing-note">Sin permanencia · Cancela cuando quieras</p>
+    <div class="pricing-divider"></div>
+    <div class="pricing-perks">
+      <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">Análisis de referencias — hasta 200 vídeos</span></div>
+      <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">30 sincronizaciones/mes con TikTok</span></div>
+      <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">10 insights IA/mes (Crema)</span></div>
+      <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">50 acciones IA/mes · máx. 5/día</span></div>
+      <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">Content Builder completo (Tandas)</span></div>
+      <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">Viral Score + Lab + Clones + Alivios</span></div>
+      <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">Script to Clip + Hooks personales</span></div>
+    </div>
+    <a href="https://app.tandora.app" class="pricing-cta">Empezar ahora</a>
+  </div>
+  <p class="pricing-footer">¿Dudas? Escríbenos. Respondemos en menos de 24h.</p>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>El próximo vídeo que publiques<br>puede ser diferente.</h2>
+  <p>Pero solo si empiezas a mirarlo de otra manera.</p>
+  <a href="https://app.tandora.app" class="btn-primary" style="font-size:17px;padding:16px 36px;border-radius:8px">Empieza con Tandora →</a>
+  <p class="final-note">12 €/mes · Sin permanencia · Cancela cuando quieras</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">tandora</span>
+  <div class="footer-links">
+    <a href="#">Términos</a>
+    <a href="#">Privacidad</a>
+    <a href="#">Contacto</a>
+  </div>
+  <span class="footer-copy">© 2026 Tandora</span>
+</footer>
+
+<script>
+  // Gráfico de barras proof
+  const bars = document.getElementById('proof-bars');
+  const preBars  = [2, 3, 2, 4, 3, 3];
+  const postBars = [5, 9, 7, 10, 8, 13, 11, 15, 14, 18, 16, 22, 19, 26, 28, 32, 38, 29, 35, 46, 40, 52];
+  const maxH = 52;
+
+  preBars.forEach(h => {
+    const bar = document.createElement('div');
+    bar.className = 'proof-bar pre';
+    bar.style.height = (h / maxH * 100) + '%';
+    bars.appendChild(bar);
+  });
+
+  // línea Tandora
+  const separator = document.createElement('div');
+  separator.style.cssText = 'width:1px;height:100%;background:#A855F766;flex-shrink:0;position:relative';
+  const label = document.createElement('div');
+  label.style.cssText = 'position:absolute;top:0;left:4px;background:#A855F722;padding:3px 8px;border-radius:4px;font-size:9px;color:#A855F7;font-weight:600;white-space:nowrap;font-family:Inter,sans-serif';
+  label.textContent = 'Empieza Tandora →';
+  separator.appendChild(label);
+  bars.appendChild(separator);
+
+  postBars.forEach(h => {
+    const bar = document.createElement('div');
+    bar.className = 'proof-bar post';
+    bar.style.height = (h / maxH * 100) + '%';
+    bars.appendChild(bar);
+  });
+</script>
+
+</body>
+</html>
