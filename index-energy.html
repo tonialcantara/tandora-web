@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tandora — Deja de publicar a ciegas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital@1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:    #080808;
+      --card:  #111111;
+      --card2: #161616;
+      --line:  #252525;
+      --pink:  #FF2D55;
+      --cyan:  #00F2EA;
+      --amber: #F59E0B;
+      --white: #FFFFFF;
+      --mid:   #C0C0D0;
+      --dim:   #888898;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    /* grain overlay */
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      opacity: 1;
+    }
+
+    /* ─── HELPERS ──────────────────────────────── */
+    .bb  { font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+    .pf  { font-family: 'Playfair Display', serif; font-style: italic; }
+
+    /* brush-stroke number badge */
+    .num-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px;
+      width: 48px; height: 36px; border-radius: 4px; flex-shrink: 0;
+      position: relative; clip-path: polygon(3% 5%, 97% 0%, 100% 90%, 2% 100%);
+    }
+
+    /* ─── NAV ──────────────────────────────────── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 56px; height: 64px;
+      background: rgba(8,8,8,0.9); backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+      border-bottom: 1px solid #ffffff08;
+    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 3px; color: var(--white); text-decoration: none; }
+    .nav-logo em { color: var(--pink); font-style: normal; }
+    .nav-cta {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--pink); color: #fff; font-size: 13px; font-weight: 700;
+      padding: 10px 22px; border-radius: 4px; text-decoration: none;
+      box-shadow: 0 0 24px #FF2D5540; transition: all .2s;
+    }
+    .nav-cta:hover { background: #e8244a; box-shadow: 0 0 36px #FF2D5560; }
+
+    /* ─── HERO ─────────────────────────────────── */
+    .hero {
+      min-height: 95vh; padding: 80px 56px 60px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+
+    /* big ambient glow */
+    .hero::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 700px 500px at 80% 20%, #FF2D5514 0%, transparent 70%),
+        radial-gradient(ellipse 500px 400px at 10% 80%, #00F2EA0C 0%, transparent 70%);
+    }
+
+    /* diagonal accent bar */
+    .hero-bar {
+      position: absolute; top: 0; right: 0; width: 3px; height: 100%;
+      background: linear-gradient(180deg, transparent, var(--pink) 40%, var(--cyan) 80%, transparent);
+      opacity: 0.5;
+    }
+
+    /* eyebrow */
+    .hero-eye {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 36px; position: relative;
+    }
+    .hero-eye::before {
+      content: ''; width: 24px; height: 2px;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+    }
+    .hero-eye [data-lucide] { width: 13px; height: 13px; color: var(--cyan); }
+
+    /* headline */
+    .hero-h {
+      position: relative; line-height: 0.9; margin-bottom: 10px;
+    }
+    .h-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 12px; }
+    .h-bb {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 10.5vw, 148px);
+      letter-spacing: 2px; color: var(--white);
+    }
+    .h-pf {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: clamp(68px, 10vw, 140px);
+      color: var(--pink); line-height: 1;
+    }
+    .h-cyan { color: var(--cyan); }
+
+    /* hand-drawn underline svg */
+    .h-underline {
+      display: block; margin-top: 4px;
+      width: clamp(300px, 55%, 700px); height: 14px; overflow: visible;
+    }
+
+    /* deco elements */
+    .deco-x {
+      position: absolute; right: 80px; top: 50%;
+      font-family: 'Bebas Neue', sans-serif; font-size: 120px;
+      color: #ffffff06; line-height: 1; user-select: none; transform: rotate(12deg);
+    }
+    .deco-slash {
+      position: absolute; display: flex; flex-direction: column; gap: 8px;
+    }
+    .deco-slash span {
+      display: block; height: 3px; border-radius: 2px; background: var(--cyan);
+      transform-origin: left center;
+    }
+
+    /* sub */
+    .hero-sub {
+      font-size: 18px; color: var(--mid); max-width: 520px; line-height: 1.65;
+      margin: 40px 0 36px; position: relative;
+    }
+    .hero-sub strong { color: var(--white); font-weight: 600; }
+
+    /* btns */
+    .hero-btns { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+    .btn-pink {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--pink); color: #fff; font-size: 16px; font-weight: 700;
+      padding: 15px 32px; border-radius: 4px; text-decoration: none;
+      box-shadow: 0 0 32px #FF2D5545; transition: all .2s;
+    }
+    .btn-pink:hover { background: #e8244a; transform: translateY(-2px); box-shadow: 0 0 48px #FF2D5565; }
+    .btn-ghost {
+      display: flex; align-items: center; gap: 8px;
+      border: 1px solid var(--line); color: var(--mid); font-size: 15px; font-weight: 500;
+      padding: 14px 28px; border-radius: 4px; text-decoration: none;
+      background: transparent; transition: all .2s;
+    }
+    .btn-ghost:hover { border-color: #444; color: var(--white); }
+    .hero-note { font-size: 12px; color: var(--dim); }
+
+    /* stats row */
+    .hero-stats {
+      display: flex; margin-top: 60px; position: relative;
+      border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
+      align-self: flex-start; background: #0D0D0D;
+    }
+    .hero-stat {
+      display: flex; align-items: center; gap: 14px;
+      padding: 18px 28px; border-right: 1px solid var(--line);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hs-icon { color: var(--cyan); flex-shrink: 0; }
+    .hs-icon [data-lucide] { width: 20px; height: 20px; }
+    .hs-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; line-height: 1; }
+    .hs-lbl { font-size: 11px; color: var(--mid); margin-top: 1px; }
+
+    /* ─── MOCKUP ───────────────────────────────── */
+    .mockup-wrap {
+      padding: 0 56px 80px; position: relative;
+    }
+    .mockup-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--dim); margin-bottom: 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .mockup-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+    .hero-mockup {
+      width: 100%; height: 560px;
+      background: #0D0D0D; border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--line); box-shadow: 0 0 80px #FF2D5512;
+      display: flex;
+    }
+    .mock-sidebar {
+      width: 176px; background: #090909; border-right: 1px solid var(--line);
+      display: flex; flex-direction: column; padding: 14px 0; gap: 2px; flex-shrink: 0;
+    }
+    .mock-logo { font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 2px; padding: 0 14px 14px; }
+    .mock-logo em { color: var(--pink); font-style: normal; }
+    .mock-item {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; color: #444; padding: 7px 14px; margin: 0 6px; border-radius: 4px; font-weight: 500;
+    }
+    .mock-item.on { background: #FF2D5510; color: var(--pink); font-weight: 600; }
+    .mock-main { flex: 1; overflow: hidden; padding: 14px; display: flex; flex-direction: column; gap: 9px; background: #0D0D0D; }
+    .mock-topbar { display: flex; gap: 8px; align-items: center; }
+    .mock-search { flex: 1; background: #111; border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font-size: 10px; color: #444; display: flex; align-items: center; gap: 6px; }
+    .mock-filter { background: #111; border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font-size: 10px; color: #666; white-space: nowrap; }
+    .mock-btn { background: var(--pink); color: #fff; padding: 6px 12px; border-radius: 6px; font-size: 10px; font-weight: 700; white-space: nowrap; display: flex; align-items: center; gap: 4px; }
+    .mock-triple { background: #120800; border: 1px solid #F59E0B33; border-radius: 6px; padding: 7px 11px; display: flex; align-items: center; gap: 8px; }
+    .mock-t-badge { background: var(--pink); color: #fff; padding: 2px 7px; border-radius: 20px; font-size: 9px; font-weight: 700; display: flex; align-items: center; gap: 3px; }
+    .mock-t-text { font-size: 9px; color: #666; flex: 1; }
+    .mock-head { display: flex; gap: 8px; padding: 0 8px; font-size: 9px; font-weight: 700; color: #333; text-transform: uppercase; letter-spacing: 0.5px; }
+    .mc { display: flex; align-items: center; }
+    .mc1 { flex: 2; } .mc2 { flex: 1; } .mc3 { flex: 3; } .mc4 { flex: 1; } .mc5 { flex: 1; } .mc6 { flex: 1; }
+    .mock-row { display: flex; gap: 8px; align-items: center; padding: 8px; background: #111; border-radius: 6px; border: 1px solid var(--line); }
+    .mock-row.hi { border-color: #FF2D5533; }
+    .mock-c1 { flex: 2; font-size: 10px; font-weight: 700; color: var(--pink); }
+    .mock-c2 { flex: 1; font-size: 9px; color: #444; }
+    .mock-c3 { flex: 3; font-size: 9px; color: #666; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .mock-c4 { flex: 1; }
+    .mock-pill { background: #FF2D5518; color: var(--pink); font-size: 8px; padding: 2px 5px; border-radius: 3px; font-weight: 700; }
+    .mock-c5 { flex: 1; font-size: 10px; font-weight: 700; color: #777; }
+    .mock-c6 { flex: 1; }
+    .t-badge { background: var(--pink); color: #fff; padding: 2px 5px; border-radius: 8px; font-size: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 2px; }
+
+    /* ─── TRUST ────────────────────────────────── */
+    .trust {
+      display: flex; align-items: center; justify-content: center; flex-wrap: wrap;
+      background: #0D0D0D; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 16px 32px; font-size: 12px; color: var(--mid); font-weight: 500;
+      border-right: 1px solid var(--line);
+    }
+    .trust-item:last-child { border-right: none; }
+    .trust-item [data-lucide] { width: 13px; height: 13px; color: var(--cyan); }
+
+    /* ─── SECTION ──────────────────────────────── */
+    .sec { padding: 100px 56px; position: relative; }
+    .sec.dark { background: #0D0D0D; }
+    .sec-head { text-align: center; margin-bottom: 64px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .sec-eye {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #FF2D5510; border: 1px solid #FF2D5525;
+      color: var(--pink); font-size: 10px; font-weight: 700;
+      padding: 4px 12px; border-radius: 3px; letter-spacing: 2px; text-transform: uppercase;
+    }
+    .sec-h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 64px); letter-spacing: 1px; line-height: 1;
+    }
+    .sec-sub { font-size: 16px; color: var(--mid); max-width: 520px; line-height: 1.6; }
+
+    /* ─── PAIN ─────────────────────────────────── */
+    .pain-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+    .pain-card {
+      background: var(--card); padding: 32px 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 14px;
+      text-align: center; border: 1px solid var(--line); border-radius: 2px;
+      transition: background .2s;
+    }
+    .pain-card:hover { background: #151515; }
+    .pain-icon {
+      width: 52px; height: 52px; border-radius: 4px;
+      background: #FF2D5510; border: 1px solid #FF2D5520;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pain-icon [data-lucide] { width: 22px; height: 22px; color: var(--pink); }
+    .pain-title { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 0.5px; line-height: 1; }
+    .pain-desc { font-size: 13px; color: var(--mid); line-height: 1.6; text-align: center; }
+    .arrow-dn { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 56px; color: var(--dim); font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+    .arrow-dn span:first-child { font-size: 32px; color: var(--pink); line-height: 1; }
+
+    /* ─── AXES ─────────────────────────────────── */
+    .axes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .axis-card {
+      background: var(--card); border-radius: 8px; padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 20px;
+      border: 1px solid var(--line); border-top: 2px solid;
+      position: relative; overflow: hidden;
+    }
+    .axis-card::after {
+      content: attr(data-num);
+      position: absolute; right: -10px; bottom: -20px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 120px; letter-spacing: 0;
+      color: #ffffff04; line-height: 1; pointer-events: none; user-select: none;
+    }
+    .axis-top { display: flex; align-items: center; gap: 14px; }
+    .ax-num { font-family: 'Bebas Neue', sans-serif; font-size: 14px; font-weight: 900; }
+    .ax-badge {
+      display: inline-block; padding: 2px 10px; border-radius: 3px;
+      clip-path: polygon(1% 8%, 99% 0%, 100% 92%, 0% 100%);
+    }
+    .axis-title-wrap { display: flex; flex-direction: column; gap: 0; }
+    .ax-t1 { font-family: 'Bebas Neue', sans-serif; font-size: 42px; letter-spacing: 0.5px; line-height: 1; }
+    .ax-t2 { font-family: 'Playfair Display', serif; font-style: italic; font-size: 38px; line-height: 1.1; }
+    .axis-desc { font-size: 14px; color: var(--white); line-height: 1.65; opacity: 0.82; }
+    .axis-divider { height: 1px; background: var(--line); }
+    .axis-feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .ax-feat { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
+    .ax-feat-ico {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .ax-feat-ico [data-lucide] { width: 13px; height: 13px; }
+    .ax-feat-txt { font-size: 11px; color: #C0C0D0; line-height: 1.3; }
+
+    /* ─── FEATURES ─────────────────────────────── */
+    .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .feat-card {
+      background: var(--card); overflow: hidden;
+      display: flex; flex-direction: column;
+      border: 1px solid var(--line); border-radius: 2px;
+      transition: background .2s, transform .2s;
+    }
+    .feat-card:hover { background: #141414; transform: translateY(-4px); }
+    .feat-top { height: 3px; }
+    .feat-ill { height: 195px; background: #0D0D0D; padding: 14px; overflow: hidden; position: relative; }
+    .feat-info { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 10px; }
+    .feat-name-row { display: flex; align-items: center; gap: 10px; }
+    .feat-name-row [data-lucide] { width: 18px; height: 18px; color: var(--pink); }
+    .feat-name { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; }
+    .feat-desc { font-size: 13px; color: var(--mid); line-height: 1.6; }
+
+    /* ill pieces */
+    .ill-search { background: #111; border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; font-size: 10px; color: #444; display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+    .ill-row { display: flex; gap: 8px; align-items: flex-start; padding: 8px; background: #111; border-radius: 6px; border: 1px solid var(--line); margin-bottom: 6px; }
+    .ill-row.hi { border-color: #FF2D5533; }
+    .ill-thumb { width: 34px; height: 34px; border-radius: 4px; background: #FF2D5518; flex-shrink: 0; }
+    .ill-meta { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+    .ill-cr { font-size: 10px; font-weight: 700; }
+    .ill-hk { font-size: 9px; color: #555; line-height: 1.3; }
+    .ill-st { display: flex; align-items: center; gap: 5px; font-size: 9px; color: #444; }
+    .tri { background: var(--pink); color: #fff; padding: 1px 5px; border-radius: 6px; font-size: 8px; font-weight: 700; display: inline-flex; align-items: center; gap: 2px; }
+    .ill-add { background: var(--pink); color: #fff; text-align: center; padding: 7px; border-radius: 6px; font-size: 10px; font-weight: 700; margin-top: 4px; }
+
+    .ill-av-grid { display: flex; flex-direction: column; gap: 5px; margin-bottom: 7px; }
+    .ill-av-row { display: flex; gap: 5px; }
+    .ill-av { flex: 1; background: #111; border: 1px solid var(--line); border-radius: 6px; padding: 6px 6px; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .ill-av.mine { border-color: #FF2D5533; }
+    .ill-av-c { width: 22px; height: 22px; border-radius: 50%; }
+    .ill-av-n { font-size: 7px; font-weight: 600; color: #666; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; max-width: 100%; }
+    .ill-av-s { font-size: 7px; color: #333; }
+    .ill-niche { display: flex; align-items: center; gap: 5px; }
+    .ill-ni-l { font-size: 9px; color: #444; white-space: nowrap; }
+    .ill-ni-b { flex: 1; height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+    .ill-ni-f { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--pink), #FF6B8A); }
+    .ill-ni-p { font-size: 9px; font-weight: 700; color: var(--pink); }
+
+    .ill-ref { display: flex; align-items: center; gap: 6px; margin-bottom: 7px; font-size: 9px; color: #444; }
+    .ill-ref-pill { background: #FF2D5510; border: 1px solid #FF2D5525; border-radius: 4px; padding: 2px 7px; font-size: 9px; color: var(--pink); font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .ill-ref-dot { width: 12px; height: 12px; border-radius: 2px; background: var(--pink); }
+    .ill-piece { background: #111; border: 1px solid var(--line); border-radius: 6px; padding: 7px; margin-bottom: 7px; }
+    .ill-ph { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+    .ill-pt { font-size: 9px; font-weight: 700; color: var(--pink); display: flex; align-items: center; gap: 3px; }
+    .ill-dead { background: #120800; color: #F59E0B; padding: 2px 5px; border-radius: 3px; font-size: 8px; font-weight: 700; border: 1px solid #F59E0B25; display: flex; align-items: center; gap: 3px; }
+    .ill-hook { font-size: 9px; color: #555; line-height: 1.4; font-style: italic; }
+    .ill-iter { display: flex; align-items: center; gap: 4px; }
+    .iter { font-size: 8px; padding: 2px 7px; border-radius: 20px; font-weight: 600; }
+    .iter.done { background: var(--line); color: #444; }
+    .iter.on   { background: #FF2D5518; color: var(--pink); border: 1px solid #FF2D5530; }
+    .iter.pend { background: var(--line); color: #333; }
+    .iter-arr  { font-size: 10px; color: #333; }
+
+    .ill-pills { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 7px; }
+    .ill-pill { padding: 3px 9px; border-radius: 20px; font-size: 9px; font-weight: 600; display: flex; align-items: center; gap: 3px; border: 1px solid var(--line); color: #444; }
+    .ill-pill.on { background: #FF2D5512; border-color: #FF2D5530; color: var(--pink); }
+    .ill-ins { background: #111; border: 1px solid var(--line); border-radius: 6px; padding: 7px 9px; display: flex; flex-direction: column; gap: 4px; }
+    .ill-ins-eye { font-size: 9px; font-weight: 700; color: var(--cyan); display: flex; align-items: center; gap: 3px; }
+    .ill-ins-txt { font-size: 9px; color: #666; line-height: 1.4; }
+    .ill-ins-tag { background: var(--line); padding: 2px 7px; border-radius: 3px; font-size: 8px; color: #444; display: inline-block; }
+
+    .ill-clones { display: flex; gap: 8px; align-items: center; height: 100%; }
+    .ill-cl-struct { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+    .ill-cl-lbl { font-size: 7px; color: #333; font-weight: 700; letter-spacing: 1px; margin-bottom: 2px; }
+    .ill-cl-blk { padding: 5px 8px; border-radius: 4px; font-size: 9px; font-weight: 700; border: 1px solid; text-align: center; }
+    .ill-cl-arr { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 0 2px; }
+    .ill-cl-items { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .ill-cl-item { background: #111; border: 1px solid var(--line); border-radius: 4px; padding: 5px 7px; font-size: 8px; color: #666; line-height: 1.3; }
+
+    .ill-lab { display: flex; gap: 10px; align-items: center; height: 100%; }
+    .ill-score-col { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
+    .ill-ring {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: conic-gradient(var(--pink) 0% 71%, #222 71% 100%);
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .ill-ring::before { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: #0D0D0D; }
+    .ill-score-n { font-family: 'Bebas Neue', sans-serif; font-size: 20px; position: relative; }
+    .ill-tier { background: #00F2EA12; color: var(--cyan); padding: 3px 7px; border-radius: 3px; font-size: 9px; font-weight: 700; display: flex; align-items: center; gap: 3px; border: 1px solid #00F2EA25; }
+    .ill-mx { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+    .ill-mx-lbl { font-size: 7px; color: #333; font-weight: 700; letter-spacing: 1px; margin-bottom: 2px; }
+    .ill-mx-row { display: flex; flex-direction: column; gap: 2px; }
+    .ill-mx-hd { display: flex; justify-content: space-between; }
+    .ill-mx-nm { font-size: 9px; color: #444; }
+    .ill-mx-vl { font-size: 9px; font-weight: 700; color: #666; }
+    .ill-mx-bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+    .ill-mx-fill { height: 100%; border-radius: 2px; }
+    .ill-proj { font-size: 8px; color: var(--cyan); font-weight: 600; margin-top: 3px; }
+
+    /* secondary */
+    .sec-divider {
+      display: flex; align-items: center; gap: 14px;
+      font-size: 10px; font-weight: 700; color: var(--dim); letter-spacing: 2px; text-transform: uppercase;
+      margin: 56px 0 28px;
+    }
+    .sec-divider::before, .sec-divider::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+    .sec-mini-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+    .sec-mini {
+      background: var(--card); padding: 20px; display: flex; flex-direction: column; gap: 10px;
+      border: 1px solid var(--line); border-radius: 2px; transition: background .2s;
+    }
+    .sec-mini:hover { background: #141414; }
+    .sec-mi-top { display: flex; align-items: center; gap: 10px; }
+    .sec-mi-ico { width: 30px; height: 30px; border-radius: 4px; background: #FF2D5510; border: 1px solid #FF2D5518; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sec-mi-ico [data-lucide] { width: 14px; height: 14px; color: var(--pink); }
+    .sec-mi-nm { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 0.5px; }
+    .sec-mi-desc { font-size: 12px; color: var(--mid); line-height: 1.5; }
+    .sec-mi-tag { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 3px; display: inline-block; align-self: flex-start; background: #FF2D5510; color: var(--pink); border: 1px solid #FF2D5520; letter-spacing: 0.5px; }
+
+    /* ─── QUOTE ────────────────────────────────── */
+    .quote-sec { padding: 80px 56px; display: flex; justify-content: center; }
+    .quote-card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+      padding: 52px 60px; max-width: 780px; text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 20px;
+      position: relative; overflow: hidden;
+    }
+    .quote-card::before {
+      content: '"'; position: absolute; top: -40px; left: 32px;
+      font-family: 'Playfair Display', serif; font-style: italic;
+      font-size: 240px; color: #FF2D5506; line-height: 1; pointer-events: none;
+    }
+    .q-stars { display: flex; gap: 4px; }
+    .q-stars span { color: #F59E0B; font-size: 16px; }
+    .q-text { font-size: 19px; font-weight: 500; line-height: 1.6; position: relative; }
+    .q-author { display: flex; align-items: center; gap: 12px; }
+    .q-av { width: 42px; height: 42px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), #FF6B8A); }
+    .q-name { font-weight: 700; font-size: 14px; }
+    .q-handle { font-size: 12px; color: var(--mid); }
+    .q-badge { background: var(--line); color: var(--mid); font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 3px; margin-left: 6px; letter-spacing: 1px; }
+
+    /* ─── PROOF ────────────────────────────────── */
+    .proof-inner {
+      background: var(--card); border-radius: 10px; padding: 52px;
+      display: flex; gap: 56px; align-items: flex-start; border: 1px solid var(--line);
+    }
+    .proof-copy { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    .proof-eye {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: #00F2EA0C; border: 1px solid #00F2EA22;
+      color: var(--cyan); font-size: 10px; font-weight: 700;
+      padding: 4px 12px; border-radius: 3px; letter-spacing: 1.5px; text-transform: uppercase;
+      align-self: flex-start;
+    }
+    .proof-h2 { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 1px; line-height: 0.9; }
+    .proof-h2 em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--pink); font-size: 42px; }
+    .proof-p { font-size: 14px; color: var(--mid); line-height: 1.7; }
+    .proof-stats { display: flex; gap: 32px; margin-top: 4px; }
+    .proof-sv { font-family: 'Bebas Neue', sans-serif; font-size: 40px; letter-spacing: 1px; color: var(--pink); }
+    .proof-sl { font-size: 11px; color: var(--dim); font-weight: 500; margin-top: -4px; }
+    .proof-profile { display: flex; align-items: center; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line); }
+    .proof-av { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, var(--pink), #FF6B8A); }
+    .proof-pn { font-size: 13px; font-weight: 700; }
+    .proof-ps { font-size: 10px; color: var(--dim); margin-top: 2px; }
+    .proof-period { margin-left: auto; background: var(--card2); border: 1px solid var(--line); border-radius: 4px; padding: 5px 12px; font-size: 10px; color: var(--mid); display: flex; align-items: center; gap: 5px; }
+    .proof-vis { flex: 2; display: flex; flex-direction: column; gap: 12px; }
+    .proof-mrow { display: flex; gap: 10px; }
+    .proof-met { flex: 1; background: var(--card2); border: 1px solid var(--line); border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; }
+    .proof-ml { font-size: 9px; color: var(--dim); font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
+    .proof-mv { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; }
+    .proof-md { font-size: 9px; color: var(--cyan); }
+    .proof-chart { background: var(--card2); border-radius: 8px; padding: 14px; border: 1px solid var(--line); }
+    .proof-ct { font-size: 9px; color: var(--dim); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .proof-graph { height: 150px; overflow: hidden; }
+    .proof-bars { display: flex; align-items: flex-end; gap: 3px; height: 100%; }
+    .proof-bar { border-radius: 2px 2px 0 0; flex: 1; }
+    .proof-bar.pre { background: #2A2A2A; }
+    .proof-bar.post { background: linear-gradient(180deg, var(--pink), #AA1133); }
+    .proof-months { display: flex; justify-content: space-around; padding: 6px 0 0; }
+    .proof-month { font-size: 8px; color: #333; }
+
+    /* ─── MANIFESTO ────────────────────────────── */
+    .manifesto {
+      padding: 100px 56px; text-align: center;
+      background: #0D0D0D; position: relative; overflow: hidden;
+    }
+    .manifesto::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 600px 300px at 50% 100%, #FF2D5510 0%, transparent 70%);
+    }
+    .mani-eye { font-size: 10px; color: var(--dim); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+    .mani-h2 {
+      font-size: clamp(44px, 6vw, 80px); line-height: 1; max-width: 800px; margin: 0 auto 20px;
+    }
+    .mani-h2 .bb { font-size: inherit; }
+    .mani-h2 .pf { font-size: clamp(42px, 5.8vw, 78px); color: var(--pink); }
+    .mani-sub { font-size: 16px; color: var(--mid); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+    /* ─── PRICING ──────────────────────────────── */
+    .pricing-wrap { display: flex; justify-content: center; }
+    .pricing-card {
+      width: 100%; max-width: 480px; background: var(--card);
+      border-radius: 8px; padding: 40px; border: 1px solid var(--line);
+      box-shadow: 0 0 60px #FF2D5510; display: flex; flex-direction: column; gap: 24px;
+    }
+    .pr-hd { display: flex; align-items: center; justify-content: space-between; }
+    .pr-nm { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; }
+    .pr-badge { background: #FF2D5512; color: var(--pink); font-size: 10px; font-weight: 700; padding: 4px 12px; border-radius: 3px; border: 1px solid #FF2D5525; letter-spacing: 1px; text-transform: uppercase; }
+    .pr-price { display: flex; align-items: flex-end; gap: 4px; }
+    .pr-cur { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--pink); padding-bottom: 10px; }
+    .pr-num { font-family: 'Bebas Neue', sans-serif; font-size: 80px; line-height: 1; }
+    .pr-suf { display: flex; flex-direction: column; gap: 2px; padding-bottom: 8px; }
+    .pr-mes { font-size: 14px; color: var(--mid); }
+    .pr-note { font-size: 12px; color: var(--dim); }
+    .pr-div { height: 1px; background: var(--line); }
+    .pr-perks { display: flex; flex-direction: column; gap: 12px; }
+    .perk { display: flex; align-items: center; gap: 10px; }
+    .perk-ck { width: 20px; height: 20px; border-radius: 3px; background: #FF2D5512; border: 1px solid #FF2D5525; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .perk-ck [data-lucide] { width: 11px; height: 11px; color: var(--pink); }
+    .perk-txt { font-size: 14px; color: #999; }
+    .pr-cta {
+      background: var(--pink); color: #fff; text-align: center; padding: 16px;
+      border-radius: 4px; font-size: 16px; font-weight: 700; text-decoration: none;
+      box-shadow: 0 0 28px #FF2D5530; display: block; transition: all .2s;
+    }
+    .pr-cta:hover { background: #e8244a; transform: translateY(-2px); }
+    .pr-footer { font-size: 12px; color: var(--dim); text-align: center; }
+
+    /* ─── FINAL CTA ────────────────────────────── */
+    .final {
+      padding: 120px 56px; text-align: center;
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
+      position: relative; overflow: hidden;
+    }
+    .final::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 900px 500px at 50% 100%, #FF2D5516 0%, transparent 70%);
+    }
+    .final-h { line-height: 0.9; position: relative; }
+    .final-h .bb { font-size: clamp(56px, 8vw, 110px); }
+    .final-h .pf { font-size: clamp(54px, 7.6vw, 104px); color: var(--pink); }
+    .final-p { font-size: 18px; color: var(--mid); max-width: 500px; line-height: 1.6; position: relative; }
+    .btn-final {
+      background: var(--pink); color: #fff; font-size: 17px; font-weight: 700;
+      padding: 18px 42px; border-radius: 4px; text-decoration: none;
+      box-shadow: 0 0 40px #FF2D5540; transition: all .2s; position: relative;
+    }
+    .btn-final:hover { background: #e8244a; transform: translateY(-2px); box-shadow: 0 0 60px #FF2D5560; }
+    .final-note { font-size: 12px; color: var(--dim); position: relative; }
+
+    /* ─── FOOTER ───────────────────────────────── */
+    footer {
+      padding: 36px 56px; background: #0D0D0D; border-top: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ft-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; }
+    .ft-logo em { color: var(--pink); font-style: normal; }
+    .ft-copy { font-size: 12px; color: var(--dim); }
+    .ft-links { display: flex; gap: 22px; }
+    .ft-links a { font-size: 12px; color: var(--dim); text-decoration: none; transition: color .2s; }
+    .ft-links a:hover { color: var(--white); }
+
+    /* worn / distressed text */
+    .h-worn { filter: url(#worn-filter); }
+
+    /* manifesto equal font sizes */
+    .mani-h2 .pf { font-size: inherit; color: var(--pink); }
+
+    /* ─── RESPONSIVE ───────────────────────────── */
+    @media (max-width: 1100px) {
+      nav, .hero, .mockup-wrap, .sec, .manifesto, .final, .quote-sec, footer { padding-left: 28px; padding-right: 28px; }
+      .pain-grid, .feat-grid, .sec-mini-grid { grid-template-columns: repeat(2, 1fr); }
+      .proof-inner { flex-direction: column; gap: 36px; }
+      .h-bb, .h-pf { font-size: clamp(52px, 8vw, 96px); }
+    }
+    @media (max-width: 768px) {
+      .pain-grid, .feat-grid, .sec-mini-grid, .axes-grid { grid-template-columns: 1fr; }
+      .hero-stats { flex-direction: column; width: 100%; }
+      .hero-stat { border-right: none; border-bottom: 1px solid var(--line); }
+      .hero-stat:last-child { border-bottom: none; }
+      .trust { flex-direction: column; }
+      .trust-item { border-right: none; border-bottom: 1px solid var(--line); width: 100%; justify-content: center; }
+      .axis-feats { grid-template-columns: 1fr; }
+      .hero-mockup { height: 300px; }
+      .mock-sidebar { width: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Worn text SVG filter -->
+<svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <defs>
+    <filter id="worn-filter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045 0.05" numOctaves="4" seed="7" result="noise"/>
+      <feColorMatrix type="matrix"
+        values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 9 -3"
+        in="noise" result="mask"/>
+      <feComposite in="SourceGraphic" in2="mask" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">tan<em>dora</em></a>
+  <a href="https://app.tandora.app" class="nav-cta">
+    <i data-lucide="zap" style="width:14px;height:14px"></i>
+    Empieza ahora
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bar"></div>
+
+  <!-- deco slash lines top-right -->
+  <div class="deco-slash" style="right:140px;top:90px">
+    <span style="width:28px;transform:rotate(-65deg)"></span>
+    <span style="width:20px;transform:rotate(-65deg);margin-left:10px"></span>
+    <span style="width:28px;transform:rotate(-65deg)"></span>
+  </div>
+
+  <div class="hero-eye">
+    <i data-lucide="flask-conical"></i>
+    Laboratorio estratégico para creadores de TikTok
+  </div>
+
+  <div class="hero-h">
+    <div class="h-row" style="margin-bottom:-10px">
+      <span class="h-bb">DEJA DE</span>
+      <span class="h-bb">PUBLICAR</span>
+    </div>
+    <div class="h-row">
+      <span class="h-pf">a ciegas.</span>
+      <span class="h-bb" style="font-size:clamp(40px,5.5vw,80px);color:#333;align-self:flex-end;padding-bottom:8px">✕</span>
+    </div>
+    <!-- hand-drawn underline -->
+    <svg class="h-underline" viewBox="0 0 600 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2 10 C50 4, 120 12, 200 7 C280 2, 350 11, 430 6 C490 2, 550 10, 598 7"
+        stroke="#00F2EA" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+    </svg>
+    <div class="deco-x">✕</div>
+  </div>
+
+  <p class="hero-sub">
+    Tandora te ayuda a construir tu comunidad sin perder tu voz e identidad propias.
+  </p>
+
+  <div class="hero-btns">
+    <a href="https://app.tandora.app" class="btn-pink">
+      <i data-lucide="zap" style="width:16px;height:16px"></i>
+      Empieza ahora
+    </a>
+    <a href="#como-funciona" class="btn-ghost">
+      <i data-lucide="play-circle" style="width:15px;height:15px"></i>
+      Ver cómo funciona
+    </a>
+  </div>
+  <p class="hero-note">18 €/mes · Sin permanencia · Cancela cuando quieras</p>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hs-icon"><i data-lucide="bar-chart-2"></i></div>
+      <div><div class="hs-num">+200</div><div class="hs-lbl">vídeos analizados</div></div>
+    </div>
+    <div class="hero-stat">
+      <div class="hs-icon"><i data-lucide="target"></i></div>
+      <div><div class="hs-num">0–100</div><div class="hs-lbl">Viral Score</div></div>
+    </div>
+    <div class="hero-stat">
+      <div class="hs-icon"><i data-lucide="bot"></i></div>
+      <div><div class="hs-num">IA</div><div class="hs-lbl">con contexto real</div></div>
+    </div>
+    <div class="hero-stat">
+      <div class="hs-icon"><i data-lucide="flame"></i></div>
+      <div><div class="hs-num">Triple</div><div class="hs-lbl">señal algoritmo</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MOCKUP -->
+<div class="mockup-wrap">
+  <div class="mockup-label"><i data-lucide="monitor" style="width:11px;height:11px;color:#333"></i>Vista real de la app</div>
+  <div class="hero-mockup">
+    <div class="mock-sidebar">
+      <div class="mock-logo">tan<em>dora</em></div>
+      <div class="mock-item"><i data-lucide="home" style="width:11px;height:11px"></i> Casa</div>
+      <div class="mock-item on"><i data-lucide="compass" style="width:11px;height:11px"></i> Chicha</div>
+      <div class="mock-item"><i data-lucide="sparkles" style="width:11px;height:11px"></i> Crema</div>
+      <div class="mock-item"><i data-lucide="calendar-days" style="width:11px;height:11px"></i> Tandas</div>
+      <div class="mock-item"><i data-lucide="life-buoy" style="width:11px;height:11px"></i> Rescates</div>
+      <div class="mock-item"><i data-lucide="flask-conical" style="width:11px;height:11px"></i> Lab</div>
+      <div class="mock-item"><i data-lucide="copy" style="width:11px;height:11px"></i> Clones</div>
+      <div class="mock-item"><i data-lucide="users" style="width:11px;height:11px"></i> Gente</div>
+      <div class="mock-item"><i data-lucide="zap" style="width:11px;height:11px"></i> Hooks</div>
+      <div class="mock-item"><i data-lucide="clapperboard" style="width:11px;height:11px"></i> Script to Clip</div>
+    </div>
+    <div class="mock-main">
+      <div class="mock-topbar">
+        <div class="mock-search"><i data-lucide="search" style="width:10px;height:10px"></i> Buscar por hook o descripción...</div>
+        <div class="mock-filter">Todas las cuentas ∨</div>
+        <div class="mock-btn"><i data-lucide="plus" style="width:9px;height:9px"></i> Añadir desde TikTok</div>
+      </div>
+      <div class="mock-triple">
+        <div class="mock-t-badge"><i data-lucide="flame" style="width:9px;height:9px"></i> Triple señal</div>
+        <div class="mock-t-text">Indica que ese post supera el promedio de tus cuentas de referencia en comentarios, compartidos y guardados al mismo tiempo.</div>
+      </div>
+      <div class="mock-head">
+        <div class="mc mc1">Creador ↕</div><div class="mc mc2">Fecha ↕</div>
+        <div class="mc mc3">Contenido ↕</div><div class="mc mc4">Enlace ↕</div>
+        <div class="mc mc5">Views ↕</div><div class="mc mc6">Eng. ↕</div>
+      </div>
+      <div class="mock-row hi">
+        <div class="mock-c1">@marjorihaddad</div>
+        <div class="mock-c2">12 feb</div>
+        <div class="mock-c3">Opus está a punto de convertirse en la navaja suiza de la edición</div>
+        <div class="mock-c4"><span class="mock-pill">TikTok</span></div>
+        <div class="mock-c5">51.1K</div>
+        <div class="mock-c6"><span class="t-badge"><i data-lucide="flame" style="width:8px;height:8px"></i> Triple</span></div>
+      </div>
+      <div class="mock-row">
+        <div class="mock-c1" style="color:#00F2EA">@aprende.ia</div>
+        <div class="mock-c2">9 feb</div>
+        <div class="mock-c3">La IA ya sabe hacer animaciones PRO con GSAP</div>
+        <div class="mock-c4"><span class="mock-pill">TikTok</span></div>
+        <div class="mock-c5">58.0K</div>
+        <div class="mock-c6"><span class="t-badge"><i data-lucide="flame" style="width:8px;height:8px"></i> Triple</span></div>
+      </div>
+      <div class="mock-row">
+        <div class="mock-c1" style="color:#666">@javiniguez</div>
+        <div class="mock-c2">7 feb</div>
+        <div class="mock-c3">Aprende a trabajar con ramas de Git de forma interactiva</div>
+        <div class="mock-c4"><span class="mock-pill">TikTok</span></div>
+        <div class="mock-c5">34.2K</div>
+        <div class="mock-c6"></div>
+      </div>
+      <div class="mock-row hi">
+        <div class="mock-c1" style="color:#F59E0B">@willfrancis24</div>
+        <div class="mock-c2">5 feb</div>
+        <div class="mock-c3">Prompt que uso para diseñar interfaces sin saber diseño</div>
+        <div class="mock-c4"><span class="mock-pill">TikTok</span></div>
+        <div class="mock-c5">112.3K</div>
+        <div class="mock-c6"><span class="t-badge"><i data-lucide="flame" style="width:8px;height:8px"></i> Triple</span></div>
+      </div>
+      <div class="mock-row">
+        <div class="mock-c1" style="color:#666">@mouredev</div>
+        <div class="mock-c2">3 feb</div>
+        <div class="mock-c3">5 herramientas para programar apps con IA en 2025</div>
+        <div class="mock-c4"><span class="mock-pill">TikTok</span></div>
+        <div class="mock-c5">29.7K</div>
+        <div class="mock-c6"></div>
+      </div>
+      <div class="mock-row">
+        <div class="mock-c1" style="color:#00F2EA">@rpn</div>
+        <div class="mock-c2">1 feb</div>
+        <div class="mock-c3">Gané 10K seguidores en 3 semanas con este formato</div>
+        <div class="mock-c4"><span class="mock-pill">TikTok</span></div>
+        <div class="mock-c5">203.5K</div>
+        <div class="mock-c6"><span class="t-badge"><i data-lucide="flame" style="width:8px;height:8px"></i> Triple</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-item"><i data-lucide="bar-chart-2"></i> +200 vídeos de referencia analizados</div>
+  <div class="trust-item"><i data-lucide="target"></i> Viral Score 0-100 por cada pieza</div>
+  <div class="trust-item"><i data-lucide="bot"></i> IA con contexto real de tu nicho</div>
+  <div class="trust-item"><i data-lucide="credit-card"></i> 18 €/mes · Sin permanencia</div>
+</div>
+
+<!-- PAIN -->
+<section class="sec" id="como-funciona">
+  <div class="sec-head">
+    <span class="sec-eye"><i data-lucide="alert-circle" style="width:11px;height:11px"></i> El problema</span>
+    <h2 class="sec-h2">¿PUBLICAS MUCHO<br>Y NO CRECES NADA?</h2>
+    <p class="sec-sub">No es que te falte actitud. Te falta un plan que entienda el funcionamiento de TikTok.</p>
+  </div>
+  <div class="pain-grid">
+    <div class="pain-card">
+      <div class="pain-icon"><i data-lucide="shuffle"></i></div>
+      <div class="pain-title">Publicas por intuición</div>
+      <div class="pain-desc">Sin saber qué estructura, hook o ángulo está petando realmente en tu nicho ahora mismo.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon"><i data-lucide="repeat-2"></i></div>
+      <div class="pain-title">No iteras</div>
+      <div class="pain-desc">Cada vídeo es un intento nuevo. Sin v2, v3. Sin aprender del anterior porque no sabes qué cambiar.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon"><i data-lucide="clipboard"></i></div>
+      <div class="pain-title">Usas plantillas vacías</div>
+      <div class="pain-desc">Genéricas, de otro nicho, sin referencia real. Se nota en el engagement y lo sabes.</div>
+    </div>
+    <div class="pain-card">
+      <div class="pain-icon"><i data-lucide="help-circle"></i></div>
+      <div class="pain-title">Ves crecer a otros</div>
+      <div class="pain-desc">Y no entiendes por qué. Ellos tienen el mismo tiempo, el mismo equipo. ¿Qué hacen diferente?</div>
+    </div>
+  </div>
+  <div class="arrow-dn"><span>↓</span><span>Hay una forma mejor</span></div>
+</section>
+
+<!-- AXES -->
+<section class="sec dark">
+  <div class="sec-head">
+    <span class="sec-eye"><i data-lucide="layers" style="width:11px;height:11px"></i> Tu método</span>
+    <h2 class="sec-h2">La fórmula de tu éxito</h2>
+    <p class="sec-sub">Tandora no te da plantillas. Te da el sistema para crear tus propias fórmulas.</p>
+  </div>
+  <div class="axes-grid">
+
+    <div class="axis-card" data-num="01" style="border-top-color:var(--pink)">
+      <div class="axis-top">
+        <div>
+          <span class="ax-badge" style="background:var(--pink);color:#fff">01</span>
+        </div>
+        <div style="width:40px;height:40px;border-radius:4px;background:#FF2D5512;border:1px solid #FF2D5525;display:flex;align-items:center;justify-content:center">
+          <i data-lucide="eye" style="width:20px;height:20px;color:var(--pink)"></i>
+        </div>
+      </div>
+      <div class="axis-title-wrap">
+        <span class="ax-t1">OBSERVACIÓN</span>
+        <span class="ax-t2" style="color:var(--pink)">inteligente</span>
+        <svg viewBox="0 0 200 8" width="160" height="8" style="margin-top:2px"><path d="M2 6 C40 2, 80 7, 130 4 C160 2, 185 6, 198 5" stroke="#FF2D55" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="axis-desc">Analiza las cuentas que ya funcionan en tu nicho. Extrae hooks reales, ángulos ganadores y estructuras virales — <strong>no opiniones, datos.</strong></div>
+      <div class="axis-divider"></div>
+      <div class="axis-feats">
+        <div class="ax-feat">
+          <div class="ax-feat-ico" style="background:#FF2D5515;border:1px solid #FF2D5525"><i data-lucide="check" style="color:var(--pink)"></i></div>
+          <div class="ax-feat-txt">Feed de referencias con métricas reales</div>
+        </div>
+        <div class="ax-feat">
+          <div class="ax-feat-ico" style="background:#FF2D5515;border:1px solid #FF2D5525"><i data-lucide="check" style="color:var(--pink)"></i></div>
+          <div class="ax-feat-txt">Top Hooks por categoría y tasa de interacción</div>
+        </div>
+        <div class="ax-feat">
+          <div class="ax-feat-ico" style="background:#FF2D5515;border:1px solid #FF2D5525"><i data-lucide="check" style="color:var(--pink)"></i></div>
+          <div class="ax-feat-txt">Triple señal <i data-lucide="flame" style="width:10px;height:10px;color:var(--pink)"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="axis-card" data-num="02" style="border-top-color:var(--cyan)">
+      <div class="axis-top">
+        <div><span class="ax-badge" style="background:var(--cyan);color:#000">02</span></div>
+        <div style="width:40px;height:40px;border-radius:4px;background:#00F2EA0C;border:1px solid #00F2EA20;display:flex;align-items:center;justify-content:center">
+          <i data-lucide="calendar-days" style="width:20px;height:20px;color:var(--cyan)"></i>
+        </div>
+      </div>
+      <div class="axis-title-wrap">
+        <span class="ax-t1">PLANIFICACIÓN</span>
+        <span class="ax-t2" style="color:var(--cyan)">accionable</span>
+        <svg viewBox="0 0 200 8" width="160" height="8" style="margin-top:2px"><path d="M2 6 C40 2, 80 7, 130 4 C160 2, 185 6, 198 5" stroke="#00F2EA" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="axis-desc">Agrupa ideas en tandas con deadline, referencia real vinculada y guion completo generado por IA. <strong>Sin página en blanco nunca más.</strong></div>
+      <div class="axis-divider"></div>
+      <div class="axis-feats">
+        <div class="ax-feat">
+          <div class="ax-feat-ico" style="background:#00F2EA0C;border:1px solid #00F2EA20"><i data-lucide="check" style="color:var(--cyan)"></i></div>
+          <div class="ax-feat-txt">Content Builder con hook, desarrollo y CTA</div>
+        </div>
+        <div class="ax-feat">
+          <div class="ax-feat-ico" style="background:#00F2EA0C;border:1px solid #00F2EA20"><i data-lucide="check" style="color:var(--cyan)"></i></div>
+          <div class="ax-feat-txt">IA genera el guion completo en un clic</div>
+        </div>
+        <div class="ax-feat">
+          <div class="ax-feat-ico" style="background:#00F2EA0C;border:1px solid #00F2EA20"><i data-lucide="check" style="color:var(--cyan)"></i></div>
+          <div class="ax-feat-txt">Countdown: verde → naranja → rojo</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="axis-card" data-num="03" style="border-top-color:var(--amber)">
+      <div class="axis-top">
+        <div><span class="ax-badge" style="background:var(--amber);color:#000">03</span></div>
+        <div style="width:40px;height:40px;border-radius:4px;background:#F59E0B0C;border:1px solid #F59E0B20;display:flex;align-items:center;justify-content:center">
+          <i data-lucide="flask-conical" style="width:20px;height:20px;color:var(--amber)"></i>
+        </div>
+      </div>
+      <div class="axis-title-wrap">
+        <span class="ax-t1">EXPERIMENTACIÓN</span>
+        <span class="ax-t2" style="color:var(--amber)">medible</span>
+        <svg viewBox="0 0 200 8" width="160" height="8" style="margin-top:2px"><path d="M2 6 C40 2, 80 7, 130 4 C160 2, 185 6, 198 5" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+      </div>
+      <div class="axis-desc">Publica, mide, compara contra tu referencia y detecta qué patrones se repiten en tus vídeos ganadores. <strong>Itera con criterio.</strong></div>
+      <div class="axis-divider"></div>
+      <div class="axis-feats">
+        <div class="ax-feat">
+          <div class="ax-feat-ico" style="background:#F59E0B0C;border:1px solid #F59E0B20"><i data-lucide="check" style="color:var(--amber)"></i></div>
+          <div class="ax-feat-txt">Viral Score 0-100 por cada vídeo</div>
+        </div>
+        <div class="ax-feat">
+          <div class="ax-feat-ico" style="background:#F59E0B0C;border:1px solid #F59E0B20"><i data-lucide="check" style="color:var(--amber)"></i></div>
+          <div class="ax-feat-txt">Comparativa real vs referencia ↑/↓</div>
+        </div>
+        <div class="ax-feat">
+          <div class="ax-feat-ico" style="background:#F59E0B0C;border:1px solid #F59E0B20"><i data-lucide="check" style="color:var(--amber)"></i></div>
+          <div class="ax-feat-txt">Proyección de crecimiento</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="sec" id="modulos">
+  <div class="sec-head">
+    <span class="sec-eye"><i data-lucide="grid" style="width:11px;height:11px"></i> Módulos</span>
+    <h2 class="sec-h2">Todo lo que necesitas<br>para crecer.</h2>
+    <p class="sec-sub">Cada módulo tiene un propósito concreto y empuja hacia las señales que el algoritmo realmente valora.</p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-top" style="background:var(--pink)"></div>
+      <div class="feat-ill">
+        <div class="ill-search"><i data-lucide="search" style="width:10px;height:10px"></i> Buscar por hook o descripción...</div>
+        <div class="ill-row hi"><div class="ill-thumb"></div><div class="ill-meta"><div class="ill-cr" style="color:var(--pink)">@marjorihaddad</div><div class="ill-hk">Opus está a punto de convertirse en la navaja suiza de la edición</div><div class="ill-st"><span class="tri"><i data-lucide="flame" style="width:7px;height:7px"></i> Triple</span> 51.1K · 23.3%</div></div></div>
+        <div class="ill-row"><div class="ill-thumb"></div><div class="ill-meta"><div class="ill-cr" style="color:var(--cyan)">@javiniguez</div><div class="ill-hk">La IA ya sabe hacer animaciones PRO con GSAP</div><div class="ill-st"><span class="tri"><i data-lucide="flame" style="width:7px;height:7px"></i> Triple</span> 58.0K · 24.1%</div></div></div>
+        <div class="ill-add">Añadir a tanda →</div>
+      </div>
+      <div class="feat-info"><div class="feat-name-row"><i data-lucide="compass"></i><span class="feat-name">Chicha</span></div><div class="feat-desc">Ve lo que está petando en tu nicho ahora mismo. Filtra por Triple señal <i data-lucide="flame" style="width:11px;height:11px;color:var(--pink)"></i> y añade cualquier vídeo a tu próxima tanda en dos clics.</div></div>
+    </div>
+    <div class="feat-card"><div class="feat-top" style="background:var(--pink)"></div>
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-av-grid">
+          <div class="ill-av-row">
+            <div class="ill-av mine"><div class="ill-av-c" style="background:linear-gradient(135deg,var(--pink),#FF6B8A)"></div><div class="ill-av-n">avidoos</div><div class="ill-av-s">2K seg.</div></div>
+            <div class="ill-av"><div class="ill-av-c" style="background:#EC489966"></div><div class="ill-av-n">marjorihaddad</div><div class="ill-av-s">715K</div></div>
+            <div class="ill-av"><div class="ill-av-c" style="background:#06B6D466"></div><div class="ill-av-n">mouredev</div><div class="ill-av-s">379K</div></div>
+          </div>
+          <div class="ill-av-row">
+            <div class="ill-av"><div class="ill-av-c" style="background:#F59E0B66"></div><div class="ill-av-n">rpn</div><div class="ill-av-s">463K</div></div>
+            <div class="ill-av"><div class="ill-av-c" style="background:#10B98166"></div><div class="ill-av-n">nathanhodgson_</div><div class="ill-av-s">119K</div></div>
+            <div class="ill-av"><div class="ill-av-c" style="background:#8B5CF666"></div><div class="ill-av-n">willfrancis24</div><div class="ill-av-s">206K</div></div>
+          </div>
+        </div>
+        <div class="ill-niche"><span class="ill-ni-l">Niche Match</span><div class="ill-ni-b"><div class="ill-ni-f" style="width:78%"></div></div><span class="ill-ni-p">78%</span></div>
+      </div>
+      <div class="feat-info"><div class="feat-name-row"><i data-lucide="users"></i><span class="feat-name">Gente</span></div><div class="feat-desc">Tus referencias y tu cuenta propia, en un panel. El Niche Match te dice si estás mirando las cuentas correctas para tu nicho.</div></div>
+    </div>
+    <div class="feat-card"><div class="feat-top" style="background:var(--pink)"></div>
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-ref">Referencia: <div class="ill-ref-pill"><div class="ill-ref-dot"></div>@marjorihaddad · 23.3% eng</div></div>
+        <div class="ill-piece"><div class="ill-ph"><span class="ill-pt"><i data-lucide="pencil" style="width:10px;height:10px"></i> Mi versión</span><span class="ill-dead"><i data-lucide="clock" style="width:10px;height:10px"></i> 3 días</span></div><div class="ill-hook">HOOK (IA): "El error que cometen todos los creadores al empezar — y cómo evitarlo en 30 segundos"</div></div>
+        <div class="ill-iter"><span class="iter done">v1 publicada</span><span class="iter-arr">→</span><span class="iter on">v2 en progreso</span><span class="iter-arr">→</span><span class="iter pend">v3 pendiente</span></div>
+      </div>
+      <div class="feat-info"><div class="feat-name-row"><i data-lucide="calendar-days"></i><span class="feat-name">Tandas</span></div><div class="feat-desc">Toma una referencia real, genera el guion con IA y comprométete con un deadline. Después itera: v2, v3... hasta que funcione.</div></div>
+    </div>
+    <div class="feat-card"><div class="feat-top" style="background:var(--pink)"></div>
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-pills">
+          <div class="ill-pill on"><i data-lucide="message-circle" style="width:10px;height:10px"></i> Comentarios</div>
+          <div class="ill-pill"><i data-lucide="refresh-cw" style="width:10px;height:10px"></i> Compartidos</div>
+          <div class="ill-pill"><i data-lucide="bookmark" style="width:10px;height:10px"></i> Guardados</div>
+          <div class="ill-pill"><i data-lucide="heart" style="width:10px;height:10px"></i> Likes</div>
+        </div>
+        <div class="ill-ins"><div class="ill-ins-eye"><i data-lucide="bot" style="width:10px;height:10px"></i> Insight generado por IA</div><div class="ill-ins-txt">Los vídeos que empiezan con una pregunta directa generan 3.2x más comentarios que los que abren con dato o afirmación.</div><span class="ill-ins-tag">Táctica: abre con una pregunta que tus seguidores ya se están haciendo</span></div>
+      </div>
+      <div class="feat-info"><div class="feat-name-row"><i data-lucide="sparkles"></i><span class="feat-name">Crema</span></div><div class="feat-desc">Insights estratégicos por cada señal del algoritmo. La IA analiza tus referencias y te dice exactamente qué provocar — y cómo.</div></div>
+    </div>
+    <div class="feat-card"><div class="feat-top" style="background:var(--pink)"></div>
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-clones">
+          <div class="ill-cl-struct">
+            <div class="ill-cl-lbl">ESTRUCTURA</div>
+            <div class="ill-cl-blk" style="background:#FF2D5512;border-color:#FF2D5530;color:var(--pink)">HOOK</div>
+            <div class="ill-cl-blk" style="background:#00F2EA0A;border-color:#00F2EA25;color:var(--cyan)">DESARROLLO</div>
+            <div class="ill-cl-blk" style="background:#F59E0B0A;border-color:#F59E0B25;color:var(--amber)">GIRO</div>
+            <div class="ill-cl-blk" style="background:#ffffff06;border-color:#222;color:#555">CTA</div>
+          </div>
+          <div class="ill-cl-arr">
+            <span style="font-size:13px;color:var(--cyan)">✦</span>
+            <span style="font-size:8px;font-weight:700;color:var(--cyan)">IA</span>
+            <span style="font-size:13px;color:var(--cyan)">→</span>
+          </div>
+          <div class="ill-cl-items">
+            <div class="ill-cl-lbl">CLONES</div>
+            <div class="ill-cl-item">"Nadie te dice esto sobre crecer en TikTok sin dinero"</div>
+            <div class="ill-cl-item">"El error que frena a todos los creadores novatos"</div>
+            <div class="ill-cl-item">"Por qué tu nicho no te funciona (y cómo arreglarlo)"</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-info"><div class="feat-name-row"><i data-lucide="copy"></i><span class="feat-name">Clones</span></div><div class="feat-desc">Captura la estructura de un vídeo viral — bloques, giro, CTA — y genera N variaciones adaptadas a tu tema en segundos.</div></div>
+    </div>
+    <div class="feat-card"><div class="feat-top" style="background:var(--pink)"></div>
+      <div class="feat-ill" style="padding:14px">
+        <div class="ill-lab">
+          <div class="ill-score-col"><div class="ill-ring"><span class="ill-score-n">71</span></div><div style="font-size:8px;color:#333">/100</div><span class="ill-tier"><i data-lucide="trophy" style="width:10px;height:10px"></i> Funcionó</span></div>
+          <div class="ill-mx">
+            <div class="ill-mx-lbl">MÉTRICAS</div>
+            <div class="ill-mx-row"><div class="ill-mx-hd"><span class="ill-mx-nm">Views</span><span class="ill-mx-vl">85.8K</span></div><div class="ill-mx-bar"><div class="ill-mx-fill" style="width:78%;background:var(--pink)"></div></div></div>
+            <div class="ill-mx-row"><div class="ill-mx-hd"><span class="ill-mx-nm">Engagement</span><span class="ill-mx-vl">9.61%</span></div><div class="ill-mx-bar"><div class="ill-mx-fill" style="width:65%;background:var(--cyan)"></div></div></div>
+            <div class="ill-mx-row"><div class="ill-mx-hd"><span class="ill-mx-nm">Retención</span><span class="ill-mx-vl">20.1%</span></div><div class="ill-mx-bar"><div class="ill-mx-fill" style="width:55%;background:var(--amber)"></div></div></div>
+            <div class="ill-proj">↗ Proyección: +340 seg. en 30 días</div>
+          </div>
+        </div>
+      </div>
+      <div class="feat-info"><div class="feat-name-row"><i data-lucide="flask-conical"></i><span class="feat-name">Lab</span></div><div class="feat-desc">Viral Score 0-100, patrones en tus hooks ganadores y proyección de crecimiento real. Trata cada vídeo como un experimento con resultados medibles.</div></div>
+    </div>
+  </div>
+
+  <div class="sec-divider">Y además</div>
+  <div class="sec-mini-grid">
+    <div class="sec-mini"><div class="sec-mi-top"><div class="sec-mi-ico"><i data-lucide="life-buoy"></i></div><span class="sec-mi-nm">Rescates</span></div><div class="sec-mi-desc">Todas tus iteraciones en un lugar. Cada vídeo que no funcionó tiene una v2 esperando.</div><span class="sec-mi-tag">Itera sin perder el hilo</span></div>
+    <div class="sec-mini"><div class="sec-mi-top"><div class="sec-mi-ico"><i data-lucide="zap"></i></div><span class="sec-mi-nm">Hooks</span></div><div class="sec-mi-desc">Tu banco personal de ganchos. Reutilízalos cuando el cursor parpadea en blanco.</div><span class="sec-mi-tag">Tu colección propia</span></div>
+    <div class="sec-mini"><div class="sec-mi-top"><div class="sec-mi-ico"><i data-lucide="clapperboard"></i></div><span class="sec-mi-nm">Script to Clip</span></div><div class="sec-mi-desc">Del guion al rodaje en un paso. Llega a grabar sabiendo exactamente qué hacer.</div><span class="sec-mi-tag">Sin improvisar en cámara</span></div>
+    <div class="sec-mini"><div class="sec-mi-top"><div class="sec-mi-ico"><i data-lucide="video"></i></div><span class="sec-mi-nm">Vídeo a guión</span></div><div class="sec-mi-desc">Sube un vídeo inspirador y obtén su guion completo para analizarlo y adaptarlo.</div><span class="sec-mi-tag">Ingeniería inversa viral</span></div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-sec">
+  <div class="quote-card">
+    <div class="q-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+    <p class="q-text">"Llevaba 6 meses publicando casi a diario y no pasaba de 800 seguidores. Con Tandora en 30 días llegué a 4.2K. No porque cambiara mi contenido, sino porque por fin entendí qué funcionaba en mi nicho."</p>
+    <div class="q-author">
+      <div class="q-av"></div>
+      <div><div class="q-name">@avidoos</div><div class="q-handle">Creador de contenido · Tech & IA</div></div>
+      <span class="q-badge">TIKTOK</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROOF -->
+<section class="sec dark" id="prueba">
+  <div class="proof-inner">
+    <div class="proof-copy">
+      <div class="proof-eye"><i data-lucide="trending-up" style="width:12px;height:12px"></i> Datos reales · @avidoos · TikTok</div>
+      <h2 class="proof-h2">De estancado a<br><em>crecer cada semana</em></h2>
+      <p class="proof-p">Datos reales de @avidoos después de empezar a usar el método Tandora. Sin trucos, sin comprar seguidores. Solo contenido con criterio.</p>
+      <div class="proof-stats">
+        <div><div class="proof-sv">+1.900%</div><div class="proof-sl">crecimiento en seguidores</div></div>
+        <div><div class="proof-sv">×3.8</div><div class="proof-sl">engagement rate</div></div>
+      </div>
+      <div class="proof-profile">
+        <div class="proof-av"></div>
+        <div><div class="proof-pn">@avidoos</div><div class="proof-ps">TikTok · Tech & IA en español</div></div>
+        <div class="proof-period"><i data-lucide="calendar" style="width:10px;height:10px"></i> Feb–May 2025</div>
+      </div>
+    </div>
+    <div class="proof-vis">
+      <div class="proof-mrow">
+        <div class="proof-met"><div class="proof-ml">Seguidores</div><div class="proof-mv">4.2K</div><div class="proof-md">↑ +1.900% vs inicio</div></div>
+        <div class="proof-met"><div class="proof-ml">Engagement</div><div class="proof-mv">9.6%</div><div class="proof-md">↑ ×3.8 vs media</div></div>
+        <div class="proof-met"><div class="proof-ml">Vídeo top</div><div class="proof-mv">85.8K</div><div class="proof-md">↑ views orgánicas</div></div>
+      </div>
+      <div class="proof-chart">
+        <div class="proof-ct">Seguidores por semana</div>
+        <div class="proof-graph"><div class="proof-bars" id="proof-bars"></div></div>
+        <div class="proof-months"><span class="proof-month">Feb</span><span class="proof-month">Mar</span><span class="proof-month">Abr</span><span class="proof-month">May</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<div class="manifesto">
+  <div class="mani-eye">Nuestra filosofía</div>
+  <h2 class="mani-h2">
+    <span class="bb">Crear con </span><span class="pf" style="font-size:inherit;color:var(--pink)">intención</span><br>
+    <span class="bb">y </span><span class="pf" style="font-size:inherit;color:var(--pink)">datos.</span>
+  </h2>
+  <p class="mani-sub">TikTok no es una lotería. Es un sistema. Tandora te da las herramientas para entender ese sistema y trabajar a tu favor — sin sacrificar tu voz ni tu identidad.</p>
+</div>
+
+<!-- PRICING -->
+<section class="sec" id="precio">
+  <div class="sec-head">
+    <span class="sec-eye"><i data-lucide="tag" style="width:11px;height:11px"></i> Precio</span>
+    <h2 class="sec-h2">Simple y sin sorpresas</h2>
+    <p class="sec-sub">Un plan. Todo incluido. Sin permanencia.</p>
+  </div>
+  <div class="pricing-wrap">
+    <div class="pricing-card">
+      <div class="pr-hd"><span class="pr-nm">Tandora Pro</span><span class="pr-badge">Todo incluido</span></div>
+      <div class="pr-price">
+        <span class="pr-cur">€</span><span class="pr-num">18</span>
+        <div class="pr-suf"><span class="pr-mes">/mes</span><span class="pr-note">sin IVA</span></div>
+      </div>
+      <div class="pr-div"></div>
+      <div class="pr-perks">
+        <div class="perk"><div class="perk-ck"><i data-lucide="check"></i></div><span class="perk-txt">Acceso completo a todos los módulos</span></div>
+        <div class="perk"><div class="perk-ck"><i data-lucide="check"></i></div><span class="perk-txt">Chicha, Lab, Clones, Tandas, Crema...</span></div>
+        <div class="perk"><div class="perk-ck"><i data-lucide="check"></i></div><span class="perk-txt">IA con contexto real de tu nicho</span></div>
+        <div class="perk"><div class="perk-ck"><i data-lucide="check"></i></div><span class="perk-txt">Actualizaciones continuas incluidas</span></div>
+        <div class="perk"><div class="perk-ck"><i data-lucide="check"></i></div><span class="perk-txt">Cancela cuando quieras</span></div>
+      </div>
+      <a href="https://app.tandora.app" class="pr-cta">Empieza ahora →</a>
+      <p class="pr-footer">18 €/mes · Sin permanencia · Cancela cuando quieras</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final">
+  <div class="final-h" style="line-height:0.85">
+    <div style="margin-bottom:-6px"><span class="bb" style="font-size:clamp(56px,8vw,110px);letter-spacing:2px">Tu próximo vídeo</span></div>
+    <div><span class="bb" style="font-size:clamp(56px,8vw,110px);letter-spacing:2px">puede cambiarlo </span><span class="pf" style="font-size:clamp(70px,10vw,140px);color:var(--pink)">todo.</span></div>
+  </div>
+  <p class="final-p">Deja de publicar por publicar. Empieza a crear con datos, referentes reales y un sistema que funciona.</p>
+  <a href="https://app.tandora.app" class="btn-final">Empieza ahora — 18 €/mes →</a>
+  <p class="final-note">Sin permanencia · Cancela cuando quieras</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="ft-logo">tan<em>dora</em></span>
+  <span class="ft-copy">© 2025 Tandora · Laboratorio estratégico para creadores de TikTok</span>
+  <div class="ft-links">
+    <a href="#">Privacidad</a>
+    <a href="#">Términos</a>
+    <a href="mailto:hola@tandora.app">Contacto</a>
+  </div>
+</footer>
+
+<script>lucide.createIcons();</script>
+<script>
+  const bars = document.getElementById('proof-bars');
+  const pre  = [2,3,2,4,3,3];
+  const post = [5,9,7,10,8,13,11,15,14,18,16,22,19,26,28,32,38,29,35,46,40,52];
+  const mx = 52;
+  pre.forEach(h  => { const b=document.createElement('div'); b.className='proof-bar pre';  b.style.height=(h/mx*100)+'%'; bars.appendChild(b); });
+  const sep=document.createElement('div');
+  sep.style.cssText='width:1px;height:100%;background:var(--pink);flex-shrink:0;position:relative';
+  const lbl=document.createElement('div');
+  lbl.style.cssText='position:absolute;top:0;left:4px;background:var(--pink);padding:3px 8px;border-radius:2px;font-size:9px;color:#fff;font-weight:700;white-space:nowrap;font-family:Bebas Neue,sans-serif;letter-spacing:1px';
+  lbl.textContent='EMPIEZA TANDORA →'; sep.appendChild(lbl); bars.appendChild(sep);
+  post.forEach(h => { const b=document.createElement('div'); b.className='proof-bar post'; b.style.height=(h/mx*100)+'%'; bars.appendChild(b); });
+</script>
+
+</body>
+</html>
