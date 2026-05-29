@@ -7,7 +7,7 @@
   <meta name="description" content="Tandora convierte tu creación de contenido en un proceso medible: referencias reales, planificación con IA y métricas que revelan qué está petando en tu nicho." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -36,7 +36,7 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Bricolage Grotesque', sans-serif;
       background: var(--bg);
       color: var(--text-primary);
       overflow-x: hidden;
@@ -72,10 +72,9 @@
       font-size: 13px; color: var(--purple); font-weight: 500;
     }
     .hero h1 {
-      font-size: 88px; line-height: 1.05; max-width: 820px;
-      background: linear-gradient(180deg, #fff 80%, #D0D0E0 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      padding-bottom: 12px;
+      font-size: clamp(48px, 7vw, 88px); line-height: 1.0; max-width: 820px;
+      color: var(--text-primary);
+      text-wrap: balance;
     }
     .hero-sub { font-size: 18px; color: var(--text-secondary); max-width: 660px; line-height: 1.6; }
     .hero-btns { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; justify-content: center; }
@@ -84,11 +83,14 @@
       padding: 14px 28px; border-radius: 6px; text-decoration: none; transition: opacity .2s;
     }
     .btn-primary:hover { opacity: .85; }
+    .btn-primary:focus-visible { outline: 2px solid var(--purple); outline-offset: 3px; }
     .btn-outline {
       border: 1px solid var(--purple); color: var(--purple); font-size: 16px; font-weight: 500;
       padding: 14px 28px; border-radius: 6px; text-decoration: none; background: transparent; transition: background .2s;
     }
     .btn-outline:hover { background: #A855F711; }
+    .btn-outline:focus-visible { outline: 2px solid var(--purple); outline-offset: 3px; }
+    .nav-cta:focus-visible { outline: 2px solid var(--purple); outline-offset: 3px; }
     .hero-note { font-size: 13px; color: var(--text-dim); }
 
     /* ─── MOCKUP ──────────────────────────────────────── */
@@ -397,7 +399,7 @@
     .proof-graph-lines { position: absolute; left: 0; right: 0; top: 12px; bottom: 24px; }
     .proof-graph-line { position: absolute; left: 40px; right: 20px; height: 1px; background: var(--border2); }
     .proof-bars { position: absolute; left: 40px; right: 20px; bottom: 24px; top: 12px; display: flex; align-items: flex-end; gap: 4px; }
-    .proof-bar { border-radius: 2px 2px 0 0; flex: 1; transition: height .3s; }
+    .proof-bar { border-radius: 2px 2px 0 0; flex: 1; transition: transform .3s ease-out; transform-origin: bottom; }
     .proof-bar.pre { background: #1E1E3A; opacity: 0.6; }
     .proof-bar.post { background: linear-gradient(0deg, var(--purple), var(--pink)); }
     .proof-tandora-line {
@@ -468,16 +470,20 @@
     .footer-copy { font-size: 13px; color: #3F3F5A; }
 
     /* ─── RESPONSIVE ──────────────────────────────────── */
+    h2, h3 { text-wrap: balance; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+
     @media (max-width: 1100px) {
       nav, .hero, .section, .final-cta, footer { padding-left: 40px; padding-right: 40px; }
       .trust { padding-left: 40px; padding-right: 40px; }
-      .hero h1 { font-size: 64px; }
     }
     @media (max-width: 768px) {
       nav { padding: 0 24px; }
       .nav-links { display: none; }
       .hero { padding: 60px 24px; }
-      .hero h1 { font-size: 48px; }
       .hero-sub { font-size: 16px; }
       .section { padding: 60px 24px; }
       .final-cta { padding: 60px 24px; }
@@ -677,7 +683,7 @@
         <span class="axis-ico"><i data-lucide="eye"></i></span>
       </div>
       <div class="axis-title" style="color:#fff">Observación inteligente</div>
-      <div class="axis-desc">Analiza las cuentas que ya funcionan en tu nicho. Extrae hooks reales, ángulos ganadores y estructuras virales — no opiniones, datos.</div>
+      <div class="axis-desc">Analiza las cuentas que ya funcionan en tu nicho. Extrae hooks reales, ángulos ganadores y estructuras virales: no opiniones, datos.</div>
       <div class="axis-divider"></div>
       <div class="axis-feats">
         <div class="axis-feat"><span class="axis-feat-check" style="color:#A855F7">✓</span><span class="axis-feat-text">Feed de referencias con métricas reales</span></div>
@@ -851,7 +857,7 @@
       </div>
       <div class="feat-info">
         <div class="feat-name-row"><i data-lucide="sparkles"></i><span class="feat-name">Crema</span></div>
-        <div class="feat-desc">Insights estratégicos por cada señal del algoritmo. La IA analiza tus referencias y te dice exactamente qué provocar — y cómo.</div>
+        <div class="feat-desc">Insights estratégicos por cada señal del algoritmo. La IA analiza tus referencias y te dice exactamente qué provocar, y cómo.</div>
       </div>
     </div>
 
@@ -881,7 +887,7 @@
       </div>
       <div class="feat-info">
         <div class="feat-name-row"><i data-lucide="copy"></i><span class="feat-name">Clones</span></div>
-        <div class="feat-desc">Captura la estructura de un vídeo viral — bloques, giro, CTA — y genera N variaciones adaptadas a tu tema en segundos.</div>
+        <div class="feat-desc">Captura la estructura de un vídeo viral (bloques, giro, CTA) y genera N variaciones adaptadas a tu tema en segundos.</div>
       </div>
     </div>
 
@@ -930,7 +936,7 @@
         <div class="sec-ico-bg" style="background:#F59E0B18;color:#F59E0B"><i data-lucide="life-buoy"></i></div>
         <span class="sec-name">Rescates</span>
       </div>
-      <div class="sec-desc">Todas tus iteraciones en un lugar. Cada vídeo que no funcionó tiene una v2 esperando — Rescates te muestra cuál es el siguiente intento.</div>
+      <div class="sec-desc">Todas tus iteraciones en un lugar. Cada vídeo que no funcionó tiene una v2 esperando: Rescates te muestra cuál es el siguiente intento.</div>
       <span class="sec-tag" style="background:#F59E0B15;color:#F59E0B">Itera sin perder el hilo</span>
     </div>
     <div class="sec-card">
@@ -1027,7 +1033,7 @@
   <div class="manifesto-box">
     <div class="manifesto-eyebrow">LA FILOSOFÍA ALGORÍTMICA DE TANDORA</div>
     <div class="manifesto-algo">Comentarios &nbsp;>&nbsp; Compartidos &nbsp;>&nbsp; Guardados &nbsp;>&nbsp; Tiempo de visualización</div>
-    <div class="manifesto-sub">Cada herramienta en Tandora te empuja a buscar esas señales — no vistas vacías.</div>
+    <div class="manifesto-sub">Cada herramienta en Tandora te empuja a buscar esas señales, no vistas vacías.</div>
   </div>
 </section>
 
@@ -1049,7 +1055,7 @@
     <p class="pricing-note">Sin permanencia · Cancela cuando quieras</p>
     <div class="pricing-divider"></div>
     <div class="pricing-perks">
-      <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">Análisis de referencias — hasta 200 vídeos</span></div>
+      <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">Análisis de referencias: hasta 200 vídeos</span></div>
       <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">30 sincronizaciones/mes con TikTok</span></div>
       <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">10 insights IA/mes (Crema)</span></div>
       <div class="pricing-perk"><span class="perk-check">✓</span><span class="perk-text">50 acciones IA/mes · máx. 5/día</span></div>
@@ -1099,7 +1105,7 @@
   const separator = document.createElement('div');
   separator.style.cssText = 'width:1px;height:100%;background:#A855F766;flex-shrink:0;position:relative';
   const label = document.createElement('div');
-  label.style.cssText = 'position:absolute;top:0;left:4px;background:#A855F722;padding:3px 8px;border-radius:4px;font-size:9px;color:#A855F7;font-weight:600;white-space:nowrap;font-family:Inter,sans-serif';
+  label.style.cssText = 'position:absolute;top:0;left:4px;background:#A855F722;padding:3px 8px;border-radius:4px;font-size:9px;color:#A855F7;font-weight:600;white-space:nowrap;font-family:'Bricolage Grotesque',sans-serif';
   label.textContent = 'Empieza Tandora →';
   separator.appendChild(label);
   bars.appendChild(separator);
